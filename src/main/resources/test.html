@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Моя страница</title>
+    <style>.container-block-root {
+        width: fit-content;
+        height: fit-content;
+        border: 2px solid #515151;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: row;
+        gap: 80px;
+        padding: 10px;
+        justify-content: space-between;
+    }
+
+    .container-block {
+        width: fit-content;
+        height: fit-content;
+        display: flex;
+        flex-direction: row;
+        gap: 80px;
+        justify-content: space-between;
+    }
+
+    .container-collapsed > *:not(:first-child) {
+        display: none;
+    }
+
+    .container-sequence {
+        width: fit-content;
+        height: fit-content;
+        gap: 5px;
+        display: flex;
+        flex-direction: column;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        background: #effffe;
+        border-radius: 10px;
+        padding: 4px;
+        border: 2px solid #515151;
+        width: fit-content;
+        max-width: 250px;
+        height: fit-content;
+    }
+    .name {
+        font-size: 15px;
+
+        color:  #509700;
+    }
+
+    .description {
+        overflow-wrap: break-word;
+        font-size: 12px;
+    }
+    .occurs {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 5px
+    }
+    .connectors-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+    }
+    .connection-line {
+        stroke: #333333;
+        stroke-width: 2;
+        fill: none;
+    }</style>
+</head>
+<body>
+<svg class="connectors-container" id="svgLayer"></svg>
+<div class="container-block-root">
+    <div class="container" onclick="changeVisibility(this)">
+        <div class="name">
+            root
+        </div>
+        <div class="element">
+            root
+        </div>
+        <div class="occurs">
+            <div class="occurs">
+                null
+            </div>
+            <div class="occurs">
+                null
+            </div>
+        </div>
+        <div class="description">
+            null
+        </div>
+    </div>
+    <div class="container-sequence">
+        <div class="container-block">
+            <div class="container" onclick="changeVisibility(this)">
+                <div class="name">
+                    finScoringTax
+                </div>
+                <div class="element">
+                    finScoringTax
+                </div>
+                <div class="occurs">
+                    <div class="occurs">
+                        1
+                    </div>
+                    <div class="occurs">
+                        1
+                    </div>
+                </div>
+                <div class="description">
+                    null
+                </div>
+            </div>
+            <div class="container-sequence">
+                <div class="container-block">
+                    <div class="container" onclick="changeVisibility(this)">
+                        <div class="name">
+                            null
+                        </div>
+                        <div class="element">
+                            null
+                        </div>
+                        <div class="occurs">
+                            <div class="occurs">
+                                null
+                            </div>
+                            <div class="occurs">
+                                null
+                            </div>
+                        </div>
+                        <div class="description">
+                            Налоговый скоринг
+                        </div>
+                    </div>
+                    <div class="container-sequence">
+                        <div class="container-block">
+                            <div class="container" onclick="changeVisibility(this)">
+                                <div class="name">
+                                    null
+                                </div>
+                                <div class="element">
+                                    null
+                                </div>
+                                <div class="occurs">
+                                    <div class="occurs">
+                                        null
+                                    </div>
+                                    <div class="occurs">
+                                        null
+                                    </div>
+                                </div>
+                                <div class="description">
+                                    null
+                                </div>
+                            </div>
+                            <div class="container-sequence">
+                                <div class="container-block">
+                                    <div class="container" onclick="changeVisibility(this)">
+                                        <div class="name">
+                                            null
+                                        </div>
+                                        <div class="element">
+                                            null
+                                        </div>
+                                        <div class="occurs">
+                                            <div class="occurs">
+                                                null
+                                            </div>
+                                            <div class="occurs">
+                                                null
+                                            </div>
+                                        </div>
+                                        <div class="description">
+                                            null
+                                        </div>
+                                    </div>
+                                    <div class="container-sequence">
+                                        <div class="container-block">
+                                            <div class="container" onclick="changeVisibility(this)">
+                                                <div class="name">
+                                                    null
+                                                </div>
+                                                <div class="element">
+                                                    null
+                                                </div>
+                                                <div class="occurs">
+                                                    <div class="occurs">
+                                                        null
+                                                    </div>
+                                                    <div class="occurs">
+                                                        null
+                                                    </div>
+                                                </div>
+                                                <div class="description">
+                                                    Информация об UUID и редакции документа, UUID объекта капитального строительства, версии схемы
+                                                </div>
+                                            </div>
+                                            <div class="container-sequence">
+                                                <div class="container-block">
+                                                    <div class="container" onclick="changeVisibility(this)">
+                                                        <div class="name">
+                                                            null
+                                                        </div>
+                                                        <div class="element">
+                                                            null
+                                                        </div>
+                                                        <div class="occurs">
+                                                            <div class="occurs">
+                                                                null
+                                                            </div>
+                                                            <div class="occurs">
+                                                                null
+                                                            </div>
+                                                        </div>
+                                                        <div class="description">
+                                                            null
+                                                        </div>
+                                                    </div>
+                                                    <div class="container-sequence">
+                                                        <div class="container-block">
+                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                <div class="name">
+                                                                    uuid
+                                                                </div>
+                                                                <div class="element">
+                                                                    uuid
+                                                                </div>
+                                                                <div class="occurs">
+                                                                    <div class="occurs">
+                                                                        1
+                                                                    </div>
+                                                                    <div class="occurs">
+                                                                        1
+                                                                    </div>
+                                                                </div>
+                                                                <div class="description">
+                                                                    UUID документа
+                                                                </div>
+                                                            </div>
+                                                            <div class="container-sequence"></div>
+                                                        </div>
+                                                        <div class="container-block">
+                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                <div class="name">
+                                                                    permanentObjectUUID
+                                                                </div>
+                                                                <div class="element">
+                                                                    permanentObjectUUID
+                                                                </div>
+                                                                <div class="occurs">
+                                                                    <div class="occurs">
+                                                                        1
+                                                                    </div>
+                                                                    <div class="occurs">
+                                                                        1
+                                                                    </div>
+                                                                </div>
+                                                                <div class="description">
+                                                                    UUID объекта капитального строительства
+                                                                </div>
+                                                            </div>
+                                                            <div class="container-sequence"></div>
+                                                        </div>
+                                                        <div class="container-block">
+                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                <div class="name">
+                                                                    edition
+                                                                </div>
+                                                                <div class="element">
+                                                                    edition
+                                                                </div>
+                                                                <div class="occurs">
+                                                                    <div class="occurs">
+                                                                        1
+                                                                    </div>
+                                                                    <div class="occurs">
+                                                                        1
+                                                                    </div>
+                                                                </div>
+                                                                <div class="description">
+                                                                    Редакция документа (версия)
+                                                                </div>
+                                                            </div>
+                                                            <div class="container-sequence"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container-block">
+                                    <div class="container" onclick="changeVisibility(this)">
+                                        <div class="name">
+                                            null
+                                        </div>
+                                        <div class="element">
+                                            null
+                                        </div>
+                                        <div class="occurs">
+                                            <div class="occurs">
+                                                null
+                                            </div>
+                                            <div class="occurs">
+                                                null
+                                            </div>
+                                        </div>
+                                        <div class="description">
+                                            null
+                                        </div>
+                                    </div>
+                                    <div class="container-sequence">
+                                        <div class="container-block">
+                                            <div class="container" onclick="changeVisibility(this)">
+                                                <div class="name">
+                                                    externalScoringId
+                                                </div>
+                                                <div class="element">
+                                                    externalScoringId
+                                                </div>
+                                                <div class="occurs">
+                                                    <div class="occurs">
+                                                        1
+                                                    </div>
+                                                    <div class="occurs">
+                                                        1
+                                                    </div>
+                                                </div>
+                                                <div class="description">
+                                                    Идентификатор (внешний) налогового скоринга
+                                                </div>
+                                            </div>
+                                            <div class="container-sequence"></div>
+                                        </div>
+                                        <div class="container-block">
+                                            <div class="container" onclick="changeVisibility(this)">
+                                                <div class="name">
+                                                    null
+                                                </div>
+                                                <div class="element">
+                                                    null
+                                                </div>
+                                                <div class="occurs">
+                                                    <div class="occurs">
+                                                        1
+                                                    </div>
+                                                    <div class="occurs">
+                                                        1
+                                                    </div>
+                                                </div>
+                                                <div class="description">
+                                                    null
+                                                </div>
+                                            </div>
+                                            <div class="container-sequence">
+                                                <div class="container-block">
+                                                    <div class="container" onclick="changeVisibility(this)">
+                                                        <div class="name">
+                                                            legalEntity
+                                                        </div>
+                                                        <div class="element">
+                                                            legalEntity
+                                                        </div>
+                                                        <div class="occurs">
+                                                            <div class="occurs">
+                                                                1
+                                                            </div>
+                                                            <div class="occurs">
+                                                                1
+                                                            </div>
+                                                        </div>
+                                                        <div class="description">
+                                                            Юридическое лицо
+                                                        </div>
+                                                    </div>
+                                                    <div class="container-sequence">
+                                                        <div class="container-block">
+                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                <div class="name">
+                                                                    null
+                                                                </div>
+                                                                <div class="element">
+                                                                    null
+                                                                </div>
+                                                                <div class="occurs">
+                                                                    <div class="occurs">
+                                                                        null
+                                                                    </div>
+                                                                    <div class="occurs">
+                                                                        null
+                                                                    </div>
+                                                                </div>
+                                                                <div class="description">
+                                                                    Юридическое лицо
+                                                                </div>
+                                                            </div>
+                                                            <div class="container-sequence">
+                                                                <div class="container-block">
+                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                        <div class="name">
+                                                                            null
+                                                                        </div>
+                                                                        <div class="element">
+                                                                            null
+                                                                        </div>
+                                                                        <div class="occurs">
+                                                                            <div class="occurs">
+                                                                                null
+                                                                            </div>
+                                                                            <div class="occurs">
+                                                                                null
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="description">
+                                                                            null
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="container-sequence">
+                                                                        <div class="container-block">
+                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                <div class="name">
+                                                                                    organizationName
+                                                                                </div>
+                                                                                <div class="element">
+                                                                                    organizationName
+                                                                                </div>
+                                                                                <div class="occurs">
+                                                                                    <div class="occurs">
+                                                                                        1
+                                                                                    </div>
+                                                                                    <div class="occurs">
+                                                                                        1
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="description">
+                                                                                    Краткое наименование организации
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="container-sequence"></div>
+                                                                        </div>
+                                                                        <div class="container-block">
+                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                <div class="name">
+                                                                                    inn
+                                                                                </div>
+                                                                                <div class="element">
+                                                                                    inn
+                                                                                </div>
+                                                                                <div class="occurs">
+                                                                                    <div class="occurs">
+                                                                                        1
+                                                                                    </div>
+                                                                                    <div class="occurs">
+                                                                                        1
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="description">
+                                                                                    ИНН
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="container-sequence"></div>
+                                                                        </div>
+                                                                        <div class="container-block">
+                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                <div class="name">
+                                                                                    kpp
+                                                                                </div>
+                                                                                <div class="element">
+                                                                                    kpp
+                                                                                </div>
+                                                                                <div class="occurs">
+                                                                                    <div class="occurs">
+                                                                                        1
+                                                                                    </div>
+                                                                                    <div class="occurs">
+                                                                                        1
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="description">
+                                                                                    КПП
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="container-sequence"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="container-block">
+                                                    <div class="container" onclick="changeVisibility(this)">
+                                                        <div class="name">
+                                                            individualEntrepreneur
+                                                        </div>
+                                                        <div class="element">
+                                                            individualEntrepreneur
+                                                        </div>
+                                                        <div class="occurs">
+                                                            <div class="occurs">
+                                                                1
+                                                            </div>
+                                                            <div class="occurs">
+                                                                1
+                                                            </div>
+                                                        </div>
+                                                        <div class="description">
+                                                            Индивидуальный предприниматель
+                                                        </div>
+                                                    </div>
+                                                    <div class="container-sequence">
+                                                        <div class="container-block">
+                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                <div class="name">
+                                                                    null
+                                                                </div>
+                                                                <div class="element">
+                                                                    null
+                                                                </div>
+                                                                <div class="occurs">
+                                                                    <div class="occurs">
+                                                                        null
+                                                                    </div>
+                                                                    <div class="occurs">
+                                                                        null
+                                                                    </div>
+                                                                </div>
+                                                                <div class="description">
+                                                                    Индивидуальный предприниматель
+                                                                </div>
+                                                            </div>
+                                                            <div class="container-sequence">
+                                                                <div class="container-block">
+                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                        <div class="name">
+                                                                            null
+                                                                        </div>
+                                                                        <div class="element">
+                                                                            null
+                                                                        </div>
+                                                                        <div class="occurs">
+                                                                            <div class="occurs">
+                                                                                null
+                                                                            </div>
+                                                                            <div class="occurs">
+                                                                                null
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="description">
+                                                                            null
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="container-sequence">
+                                                                        <div class="container-block">
+                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                <div class="name">
+                                                                                    fullName
+                                                                                </div>
+                                                                                <div class="element">
+                                                                                    fullName
+                                                                                </div>
+                                                                                <div class="occurs">
+                                                                                    <div class="occurs">
+                                                                                        1
+                                                                                    </div>
+                                                                                    <div class="occurs">
+                                                                                        1
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="description">
+                                                                                    ФИО
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="container-sequence">
+                                                                                <div class="container-block">
+                                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                                        <div class="name">
+                                                                                            null
+                                                                                        </div>
+                                                                                        <div class="element">
+                                                                                            null
+                                                                                        </div>
+                                                                                        <div class="occurs">
+                                                                                            <div class="occurs">
+                                                                                                null
+                                                                                            </div>
+                                                                                            <div class="occurs">
+                                                                                                null
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="description">
+                                                                                            ФИО
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="container-sequence">
+                                                                                        <div class="container-block">
+                                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                                <div class="name">
+                                                                                                    null
+                                                                                                </div>
+                                                                                                <div class="element">
+                                                                                                    null
+                                                                                                </div>
+                                                                                                <div class="occurs">
+                                                                                                    <div class="occurs">
+                                                                                                        null
+                                                                                                    </div>
+                                                                                                    <div class="occurs">
+                                                                                                        null
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="description">
+                                                                                                    null
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="container-sequence">
+                                                                                                <div class="container-block">
+                                                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                                                        <div class="name">
+                                                                                                            null
+                                                                                                        </div>
+                                                                                                        <div class="element">
+                                                                                                            null
+                                                                                                        </div>
+                                                                                                        <div class="occurs">
+                                                                                                            <div class="occurs">
+                                                                                                                1
+                                                                                                            </div>
+                                                                                                            <div class="occurs">
+                                                                                                                1
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="description">
+                                                                                                            null
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="container-sequence">
+                                                                                                        <div class="container-block">
+                                                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                                                <div class="name">
+                                                                                                                    null
+                                                                                                                </div>
+                                                                                                                <div class="element">
+                                                                                                                    null
+                                                                                                                </div>
+                                                                                                                <div class="occurs">
+                                                                                                                    <div class="occurs">
+                                                                                                                        null
+                                                                                                                    </div>
+                                                                                                                    <div class="occurs">
+                                                                                                                        null
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                                <div class="description">
+                                                                                                                    null
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="container-sequence">
+                                                                                                                <div class="container-block">
+                                                                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                                                                        <div class="name">
+                                                                                                                            lastName
+                                                                                                                        </div>
+                                                                                                                        <div class="element">
+                                                                                                                            lastName
+                                                                                                                        </div>
+                                                                                                                        <div class="occurs">
+                                                                                                                            <div class="occurs">
+                                                                                                                                1
+                                                                                                                            </div>
+                                                                                                                            <div class="occurs">
+                                                                                                                                1
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <div class="description">
+                                                                                                                            Фамилия
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                    <div class="container-sequence"></div>
+                                                                                                                </div>
+                                                                                                                <div class="container-block">
+                                                                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                                                                        <div class="name">
+                                                                                                                            firstName
+                                                                                                                        </div>
+                                                                                                                        <div class="element">
+                                                                                                                            firstName
+                                                                                                                        </div>
+                                                                                                                        <div class="occurs">
+                                                                                                                            <div class="occurs">
+                                                                                                                                1
+                                                                                                                            </div>
+                                                                                                                            <div class="occurs">
+                                                                                                                                1
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <div class="description">
+                                                                                                                            Имя
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                    <div class="container-sequence"></div>
+                                                                                                                </div>
+                                                                                                                <div class="container-block">
+                                                                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                                                                        <div class="name">
+                                                                                                                            middleName
+                                                                                                                        </div>
+                                                                                                                        <div class="element">
+                                                                                                                            middleName
+                                                                                                                        </div>
+                                                                                                                        <div class="occurs">
+                                                                                                                            <div class="occurs">
+                                                                                                                                0
+                                                                                                                            </div>
+                                                                                                                            <div class="occurs">
+                                                                                                                                1
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <div class="description">
+                                                                                                                            Отчество
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                    <div class="container-sequence"></div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="container-block">
+                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                <div class="name">
+                                                                                    inn
+                                                                                </div>
+                                                                                <div class="element">
+                                                                                    inn
+                                                                                </div>
+                                                                                <div class="occurs">
+                                                                                    <div class="occurs">
+                                                                                        1
+                                                                                    </div>
+                                                                                    <div class="occurs">
+                                                                                        1
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="description">
+                                                                                    ИНН
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="container-sequence"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="container-block">
+                                                    <div class="container" onclick="changeVisibility(this)">
+                                                        <div class="name">
+                                                            individual
+                                                        </div>
+                                                        <div class="element">
+                                                            individual
+                                                        </div>
+                                                        <div class="occurs">
+                                                            <div class="occurs">
+                                                                1
+                                                            </div>
+                                                            <div class="occurs">
+                                                                1
+                                                            </div>
+                                                        </div>
+                                                        <div class="description">
+                                                            Физическое лицо
+                                                        </div>
+                                                    </div>
+                                                    <div class="container-sequence">
+                                                        <div class="container-block">
+                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                <div class="name">
+                                                                    null
+                                                                </div>
+                                                                <div class="element">
+                                                                    null
+                                                                </div>
+                                                                <div class="occurs">
+                                                                    <div class="occurs">
+                                                                        null
+                                                                    </div>
+                                                                    <div class="occurs">
+                                                                        null
+                                                                    </div>
+                                                                </div>
+                                                                <div class="description">
+                                                                    Физическое лицо
+                                                                </div>
+                                                            </div>
+                                                            <div class="container-sequence">
+                                                                <div class="container-block">
+                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                        <div class="name">
+                                                                            null
+                                                                        </div>
+                                                                        <div class="element">
+                                                                            null
+                                                                        </div>
+                                                                        <div class="occurs">
+                                                                            <div class="occurs">
+                                                                                null
+                                                                            </div>
+                                                                            <div class="occurs">
+                                                                                null
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="description">
+                                                                            null
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="container-sequence">
+                                                                        <div class="container-block">
+                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                <div class="name">
+                                                                                    fullName
+                                                                                </div>
+                                                                                <div class="element">
+                                                                                    fullName
+                                                                                </div>
+                                                                                <div class="occurs">
+                                                                                    <div class="occurs">
+                                                                                        1
+                                                                                    </div>
+                                                                                    <div class="occurs">
+                                                                                        1
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="description">
+                                                                                    ФИО
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="container-sequence">
+                                                                                <div class="container-block">
+                                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                                        <div class="name">
+                                                                                            null
+                                                                                        </div>
+                                                                                        <div class="element">
+                                                                                            null
+                                                                                        </div>
+                                                                                        <div class="occurs">
+                                                                                            <div class="occurs">
+                                                                                                null
+                                                                                            </div>
+                                                                                            <div class="occurs">
+                                                                                                null
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="description">
+                                                                                            ФИО
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="container-sequence">
+                                                                                        <div class="container-block">
+                                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                                <div class="name">
+                                                                                                    null
+                                                                                                </div>
+                                                                                                <div class="element">
+                                                                                                    null
+                                                                                                </div>
+                                                                                                <div class="occurs">
+                                                                                                    <div class="occurs">
+                                                                                                        null
+                                                                                                    </div>
+                                                                                                    <div class="occurs">
+                                                                                                        null
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="description">
+                                                                                                    null
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="container-sequence">
+                                                                                                <div class="container-block">
+                                                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                                                        <div class="name">
+                                                                                                            null
+                                                                                                        </div>
+                                                                                                        <div class="element">
+                                                                                                            null
+                                                                                                        </div>
+                                                                                                        <div class="occurs">
+                                                                                                            <div class="occurs">
+                                                                                                                1
+                                                                                                            </div>
+                                                                                                            <div class="occurs">
+                                                                                                                1
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="description">
+                                                                                                            null
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="container-sequence">
+                                                                                                        <div class="container-block">
+                                                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                                                <div class="name">
+                                                                                                                    null
+                                                                                                                </div>
+                                                                                                                <div class="element">
+                                                                                                                    null
+                                                                                                                </div>
+                                                                                                                <div class="occurs">
+                                                                                                                    <div class="occurs">
+                                                                                                                        null
+                                                                                                                    </div>
+                                                                                                                    <div class="occurs">
+                                                                                                                        null
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                                <div class="description">
+                                                                                                                    null
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            <div class="container-sequence">
+                                                                                                                <div class="container-block">
+                                                                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                                                                        <div class="name">
+                                                                                                                            lastName
+                                                                                                                        </div>
+                                                                                                                        <div class="element">
+                                                                                                                            lastName
+                                                                                                                        </div>
+                                                                                                                        <div class="occurs">
+                                                                                                                            <div class="occurs">
+                                                                                                                                1
+                                                                                                                            </div>
+                                                                                                                            <div class="occurs">
+                                                                                                                                1
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <div class="description">
+                                                                                                                            Фамилия
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                    <div class="container-sequence"></div>
+                                                                                                                </div>
+                                                                                                                <div class="container-block">
+                                                                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                                                                        <div class="name">
+                                                                                                                            firstName
+                                                                                                                        </div>
+                                                                                                                        <div class="element">
+                                                                                                                            firstName
+                                                                                                                        </div>
+                                                                                                                        <div class="occurs">
+                                                                                                                            <div class="occurs">
+                                                                                                                                1
+                                                                                                                            </div>
+                                                                                                                            <div class="occurs">
+                                                                                                                                1
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <div class="description">
+                                                                                                                            Имя
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                    <div class="container-sequence"></div>
+                                                                                                                </div>
+                                                                                                                <div class="container-block">
+                                                                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                                                                        <div class="name">
+                                                                                                                            middleName
+                                                                                                                        </div>
+                                                                                                                        <div class="element">
+                                                                                                                            middleName
+                                                                                                                        </div>
+                                                                                                                        <div class="occurs">
+                                                                                                                            <div class="occurs">
+                                                                                                                                0
+                                                                                                                            </div>
+                                                                                                                            <div class="occurs">
+                                                                                                                                1
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                        <div class="description">
+                                                                                                                            Отчество
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                    <div class="container-sequence"></div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="container-block">
+                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                <div class="name">
+                                                                                    inn
+                                                                                </div>
+                                                                                <div class="element">
+                                                                                    inn
+                                                                                </div>
+                                                                                <div class="occurs">
+                                                                                    <div class="occurs">
+                                                                                        1
+                                                                                    </div>
+                                                                                    <div class="occurs">
+                                                                                        1
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="description">
+                                                                                    ИНН
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="container-sequence"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="container-block">
+                                            <div class="container" onclick="changeVisibility(this)">
+                                                <div class="name">
+                                                    scoringResult
+                                                </div>
+                                                <div class="element">
+                                                    scoringResult
+                                                </div>
+                                                <div class="occurs">
+                                                    <div class="occurs">
+                                                        0
+                                                    </div>
+                                                    <div class="occurs">
+                                                        1
+                                                    </div>
+                                                </div>
+                                                <div class="description">
+                                                    Результат налогового скоринга.
+                                                </div>
+                                            </div>
+                                            <div class="container-sequence">
+                                                <div class="container-block">
+                                                    <div class="container" onclick="changeVisibility(this)">
+                                                        <div class="name">
+                                                            null
+                                                        </div>
+                                                        <div class="element">
+                                                            null
+                                                        </div>
+                                                        <div class="occurs">
+                                                            <div class="occurs">
+                                                                null
+                                                            </div>
+                                                            <div class="occurs">
+                                                                null
+                                                            </div>
+                                                        </div>
+                                                        <div class="description">
+                                                            null
+                                                        </div>
+                                                    </div>
+                                                    <div class="container-sequence">
+                                                        <div class="container-block">
+                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                <div class="name">
+                                                                    null
+                                                                </div>
+                                                                <div class="element">
+                                                                    null
+                                                                </div>
+                                                                <div class="occurs">
+                                                                    <div class="occurs">
+                                                                        null
+                                                                    </div>
+                                                                    <div class="occurs">
+                                                                        null
+                                                                    </div>
+                                                                </div>
+                                                                <div class="description">
+                                                                    null
+                                                                </div>
+                                                            </div>
+                                                            <div class="container-sequence">
+                                                                <div class="container-block">
+                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                        <div class="name">
+                                                                            taxScoringRating
+                                                                        </div>
+                                                                        <div class="element">
+                                                                            taxScoringRating
+                                                                        </div>
+                                                                        <div class="occurs">
+                                                                            <div class="occurs">
+                                                                                1
+                                                                            </div>
+                                                                            <div class="occurs">
+                                                                                1
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="description">
+                                                                            Налоговый скоринг.
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="container-sequence"></div>
+                                                                </div>
+                                                                <div class="container-block">
+                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                        <div class="name">
+                                                                            docIssueDate
+                                                                        </div>
+                                                                        <div class="element">
+                                                                            docIssueDate
+                                                                        </div>
+                                                                        <div class="occurs">
+                                                                            <div class="occurs">
+                                                                                1
+                                                                            </div>
+                                                                            <div class="occurs">
+                                                                                1
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="description">
+                                                                            Дата выдачи документа.
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="container-sequence"></div>
+                                                                </div>
+                                                                <div class="container-block">
+                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                        <div class="name">
+                                                                            docExpirationDate
+                                                                        </div>
+                                                                        <div class="element">
+                                                                            docExpirationDate
+                                                                        </div>
+                                                                        <div class="occurs">
+                                                                            <div class="occurs">
+                                                                                0
+                                                                            </div>
+                                                                            <div class="occurs">
+                                                                                1
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="description">
+                                                                            Дата окончания срока действия документа.
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="container-sequence"></div>
+                                                                </div>
+                                                                <div class="container-block">
+                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                        <div class="name">
+                                                                            attachedFile
+                                                                        </div>
+                                                                        <div class="element">
+                                                                            attachedFile
+                                                                        </div>
+                                                                        <div class="occurs">
+                                                                            <div class="occurs">
+                                                                                1
+                                                                            </div>
+                                                                            <div class="occurs">
+                                                                                1
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="description">
+                                                                            Файл в хранилище.
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="container-sequence">
+                                                                        <div class="container-block">
+                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                <div class="name">
+                                                                                    null
+                                                                                </div>
+                                                                                <div class="element">
+                                                                                    null
+                                                                                </div>
+                                                                                <div class="occurs">
+                                                                                    <div class="occurs">
+                                                                                        null
+                                                                                    </div>
+                                                                                    <div class="occurs">
+                                                                                        null
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="description">
+                                                                                    Информация о файле, загруженном в хранилище
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="container-sequence">
+                                                                                <div class="container-block">
+                                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                                        <div class="name">
+                                                                                            null
+                                                                                        </div>
+                                                                                        <div class="element">
+                                                                                            null
+                                                                                        </div>
+                                                                                        <div class="occurs">
+                                                                                            <div class="occurs">
+                                                                                                null
+                                                                                            </div>
+                                                                                            <div class="occurs">
+                                                                                                null
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="description">
+                                                                                            null
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="container-sequence">
+                                                                                        <div class="container-block">
+                                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                                <div class="name">
+                                                                                                    id
+                                                                                                </div>
+                                                                                                <div class="element">
+                                                                                                    id
+                                                                                                </div>
+                                                                                                <div class="occurs">
+                                                                                                    <div class="occurs">
+                                                                                                        1
+                                                                                                    </div>
+                                                                                                    <div class="occurs">
+                                                                                                        1
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="description">
+                                                                                                    ID файла в хранилище
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="container-sequence"></div>
+                                                                                        </div>
+                                                                                        <div class="container-block">
+                                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                                <div class="name">
+                                                                                                    name
+                                                                                                </div>
+                                                                                                <div class="element">
+                                                                                                    name
+                                                                                                </div>
+                                                                                                <div class="occurs">
+                                                                                                    <div class="occurs">
+                                                                                                        1
+                                                                                                    </div>
+                                                                                                    <div class="occurs">
+                                                                                                        1
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="description">
+                                                                                                    Имя файла
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="container-sequence"></div>
+                                                                                        </div>
+                                                                                        <div class="container-block">
+                                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                                <div class="name">
+                                                                                                    description
+                                                                                                </div>
+                                                                                                <div class="element">
+                                                                                                    description
+                                                                                                </div>
+                                                                                                <div class="occurs">
+                                                                                                    <div class="occurs">
+                                                                                                        0
+                                                                                                    </div>
+                                                                                                    <div class="occurs">
+                                                                                                        1
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="description">
+                                                                                                    Описание
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="container-sequence"></div>
+                                                                                        </div>
+                                                                                        <div class="container-block">
+                                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                                <div class="name">
+                                                                                                    checksum
+                                                                                                </div>
+                                                                                                <div class="element">
+                                                                                                    checksum
+                                                                                                </div>
+                                                                                                <div class="occurs">
+                                                                                                    <div class="occurs">
+                                                                                                        0
+                                                                                                    </div>
+                                                                                                    <div class="occurs">
+                                                                                                        1
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="description">
+                                                                                                    Контрольная сумма файла рассчитанная по алгоритму хэширования
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="container-sequence"></div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="container-block">
+                                            <div class="container" onclick="changeVisibility(this)">
+                                                <div class="name">
+                                                    recordDeleteDateTime
+                                                </div>
+                                                <div class="element">
+                                                    recordDeleteDateTime
+                                                </div>
+                                                <div class="occurs">
+                                                    <div class="occurs">
+                                                        0
+                                                    </div>
+                                                    <div class="occurs">
+                                                        1
+                                                    </div>
+                                                </div>
+                                                <div class="description">
+                                                    Дата и время удаления записи. Заполняется для удаления скоринга.
+                                                </div>
+                                            </div>
+                                            <div class="container-sequence"></div>
+                                        </div>
+                                        <div class="container-block">
+                                            <div class="container" onclick="changeVisibility(this)">
+                                                <div class="name">
+                                                    permanentObjectIdList
+                                                </div>
+                                                <div class="element">
+                                                    permanentObjectIdList
+                                                </div>
+                                                <div class="occurs">
+                                                    <div class="occurs">
+                                                        0
+                                                    </div>
+                                                    <div class="occurs">
+                                                        1
+                                                    </div>
+                                                </div>
+                                                <div class="description">
+                                                    Список идентификаторов объекта капитального строительства.
+                                                </div>
+                                            </div>
+                                            <div class="container-sequence">
+                                                <div class="container-block">
+                                                    <div class="container" onclick="changeVisibility(this)">
+                                                        <div class="name">
+                                                            null
+                                                        </div>
+                                                        <div class="element">
+                                                            null
+                                                        </div>
+                                                        <div class="occurs">
+                                                            <div class="occurs">
+                                                                null
+                                                            </div>
+                                                            <div class="occurs">
+                                                                null
+                                                            </div>
+                                                        </div>
+                                                        <div class="description">
+                                                            null
+                                                        </div>
+                                                    </div>
+                                                    <div class="container-sequence">
+                                                        <div class="container-block">
+                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                <div class="name">
+                                                                    null
+                                                                </div>
+                                                                <div class="element">
+                                                                    null
+                                                                </div>
+                                                                <div class="occurs">
+                                                                    <div class="occurs">
+                                                                        null
+                                                                    </div>
+                                                                    <div class="occurs">
+                                                                        null
+                                                                    </div>
+                                                                </div>
+                                                                <div class="description">
+                                                                    null
+                                                                </div>
+                                                            </div>
+                                                            <div class="container-sequence">
+                                                                <div class="container-block">
+                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                        <div class="name">
+                                                                            permanentObjectId
+                                                                        </div>
+                                                                        <div class="element">
+                                                                            permanentObjectId
+                                                                        </div>
+                                                                        <div class="occurs">
+                                                                            <div class="occurs">
+                                                                                1
+                                                                            </div>
+                                                                            <div class="occurs">
+                                                                                unbounded
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="description">
+                                                                            Идентификатор объекта капитального строительства
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="container-sequence"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="container-block">
+                                            <div class="container" onclick="changeVisibility(this)">
+                                                <div class="name">
+                                                    extraParametersList
+                                                </div>
+                                                <div class="element">
+                                                    extraParametersList
+                                                </div>
+                                                <div class="occurs">
+                                                    <div class="occurs">
+                                                        0
+                                                    </div>
+                                                    <div class="occurs">
+                                                        1
+                                                    </div>
+                                                </div>
+                                                <div class="description">
+                                                    Список дополнительных параметров
+                                                </div>
+                                            </div>
+                                            <div class="container-sequence">
+                                                <div class="container-block">
+                                                    <div class="container" onclick="changeVisibility(this)">
+                                                        <div class="name">
+                                                            null
+                                                        </div>
+                                                        <div class="element">
+                                                            null
+                                                        </div>
+                                                        <div class="occurs">
+                                                            <div class="occurs">
+                                                                null
+                                                            </div>
+                                                            <div class="occurs">
+                                                                null
+                                                            </div>
+                                                        </div>
+                                                        <div class="description">
+                                                            Список дополнительных параметров
+                                                        </div>
+                                                    </div>
+                                                    <div class="container-sequence">
+                                                        <div class="container-block">
+                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                <div class="name">
+                                                                    null
+                                                                </div>
+                                                                <div class="element">
+                                                                    null
+                                                                </div>
+                                                                <div class="occurs">
+                                                                    <div class="occurs">
+                                                                        null
+                                                                    </div>
+                                                                    <div class="occurs">
+                                                                        null
+                                                                    </div>
+                                                                </div>
+                                                                <div class="description">
+                                                                    null
+                                                                </div>
+                                                            </div>
+                                                            <div class="container-sequence">
+                                                                <div class="container-block">
+                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                        <div class="name">
+                                                                            extraParameter
+                                                                        </div>
+                                                                        <div class="element">
+                                                                            extraParameter
+                                                                        </div>
+                                                                        <div class="occurs">
+                                                                            <div class="occurs">
+                                                                                1
+                                                                            </div>
+                                                                            <div class="occurs">
+                                                                                unbounded
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="description">
+                                                                            Дополнительный параметр
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="container-sequence">
+                                                                        <div class="container-block">
+                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                <div class="name">
+                                                                                    null
+                                                                                </div>
+                                                                                <div class="element">
+                                                                                    null
+                                                                                </div>
+                                                                                <div class="occurs">
+                                                                                    <div class="occurs">
+                                                                                        null
+                                                                                    </div>
+                                                                                    <div class="occurs">
+                                                                                        null
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="description">
+                                                                                    null
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="container-sequence">
+                                                                                <div class="container-block">
+                                                                                    <div class="container" onclick="changeVisibility(this)">
+                                                                                        <div class="name">
+                                                                                            null
+                                                                                        </div>
+                                                                                        <div class="element">
+                                                                                            null
+                                                                                        </div>
+                                                                                        <div class="occurs">
+                                                                                            <div class="occurs">
+                                                                                                null
+                                                                                            </div>
+                                                                                            <div class="occurs">
+                                                                                                null
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="description">
+                                                                                            null
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="container-sequence">
+                                                                                        <div class="container-block">
+                                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                                <div class="name">
+                                                                                                    parameterName
+                                                                                                </div>
+                                                                                                <div class="element">
+                                                                                                    parameterName
+                                                                                                </div>
+                                                                                                <div class="occurs">
+                                                                                                    <div class="occurs">
+                                                                                                        1
+                                                                                                    </div>
+                                                                                                    <div class="occurs">
+                                                                                                        1
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="description">
+                                                                                                    Наименование параметра
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="container-sequence"></div>
+                                                                                        </div>
+                                                                                        <div class="container-block">
+                                                                                            <div class="container" onclick="changeVisibility(this)">
+                                                                                                <div class="name">
+                                                                                                    parameterValue
+                                                                                                </div>
+                                                                                                <div class="element">
+                                                                                                    parameterValue
+                                                                                                </div>
+                                                                                                <div class="occurs">
+                                                                                                    <div class="occurs">
+                                                                                                        1
+                                                                                                    </div>
+                                                                                                    <div class="occurs">
+                                                                                                        1
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="description">
+                                                                                                    Значение параметра
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="container-sequence"></div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>lineDrawing()
+function changeVisibility(element) {
+    if ( element.parentElement.querySelector('.container-sequence').children.length !== 0) {
+        element.parentElement.classList.toggle('container-collapsed');
+        lineDrawing()
+    }
+}
+function lineDrawing() {
+    const svgLayer = document.querySelector('#svgLayer');
+    svgLayer.innerHTML = '';
+    const elements = document.querySelectorAll('.container');
+    for (const element of elements) {
+        console.log(element)
+        if (!element.parentElement.classList.contains('container-collapsed')) {
+            if (element.parentElement.querySelector('.container-sequence').children.length !== 0) {
+                const childrenContainerElements = []
+                const containerBlockList = element.parentElement.querySelector('.container-sequence').children
+                for (const el of containerBlockList) {
+                    childrenContainerElements.push(el.querySelector('.container'))
+                }
+                for (const el of childrenContainerElements) {
+                    const startPoint = getElementEdgeCenters(element).right
+                    const endPoint = getElementEdgeCenters(el).left
+                    const firstAngle = {
+                        x: startPoint.x + 40,
+                        y: startPoint.y
+                    }
+                    const secondAngle = {
+                        x: endPoint.x - 40,
+                        y: endPoint.y
+                    }
+                    if(firstAngle.y === secondAngle.y) {
+                        drawRoundedPolyline([startPoint, endPoint])
+                    } else {
+                        drawRoundedPolyline([startPoint, firstAngle, secondAngle, endPoint])
+                    }
+
+                }
+            }
+        }
+    }
+}
+
+function drawRoundedPolyline(points, cornerRadius = 10) {
+    const svg = document.getElementById("svgLayer")
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+
+    if (points.length < 2) return path;
+
+    let pathData = `M ${points[0].x} ${points[0].y}`;
+
+    for (let i = 1; i < points.length - 1; i++) {
+        const prev = points[i - 1];
+        const curr = points[i];
+        const next = points[i + 1];
+
+        const dx1 = curr.x - prev.x;
+        const dy1 = curr.y - prev.y;
+        const dx2 = next.x - curr.x;
+        const dy2 = next.y - curr.y;
+
+        const len1 = Math.sqrt(dx1 * dx1 + dy1 * dy1);
+        const len2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+
+        const norm1 = { x: dx1 / len1, y: dy1 / len1 };
+        const norm2 = { x: dx2 / len2, y: dy2 / len2 };
+
+        const r1 = Math.min(cornerRadius, len1 / 2);
+        const r2 = Math.min(cornerRadius, len2 / 2);
+        const radius = Math.min(r1, r2);
+
+        const startArc = {
+            x: curr.x - norm1.x * radius,
+            y: curr.y - norm1.y * radius
+        };
+
+        const endArc = {
+            x: curr.x + norm2.x * radius,
+            y: curr.y + norm2.y * radius
+        };
+
+        pathData += ` L ${startArc.x} ${startArc.y}`;
+
+        pathData += ` Q ${curr.x} ${curr.y} ${endArc.x} ${endArc.y}`;
+    }
+
+    const lastPoint = points[points.length - 1];
+    pathData += ` L ${lastPoint.x} ${lastPoint.y}`;
+
+    path.setAttribute('d', pathData);
+    path.setAttribute('class', 'connection-line');
+    svg.appendChild(path);
+}
+
+function getElementEdgeCenters(element) {
+    const rect = element.getBoundingClientRect();
+    const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+
+    const absLeft = rect.left + scrollX;
+    const absTop = rect.top + scrollY;
+    const absRight = rect.right + scrollX;
+    const absBottom = rect.bottom + scrollY;
+
+    return {
+        left: {
+            x: absLeft,
+            y: absTop + rect.height / 2
+        },
+        right: {
+            x: absRight,
+            y: absTop + rect.height / 2
+        },
+        top: {
+            x: absLeft + rect.width / 2,
+            y: absTop
+        },
+        bottom: {
+            x: absLeft + rect.width / 2,
+            y: absBottom
+        },
+
+        center: {
+            x: absLeft + rect.width / 2,
+            y: absTop + rect.height / 2
+        },
+
+        topLeft: { x: absLeft, y: absTop },
+        topRight: { x: absRight, y: absTop },
+        bottomLeft: { x: absLeft, y: absBottom },
+        bottomRight: { x: absRight, y: absBottom }
+    };
+}</script>
+</body>
+</html>
