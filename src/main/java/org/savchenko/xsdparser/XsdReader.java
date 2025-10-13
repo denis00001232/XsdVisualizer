@@ -76,6 +76,12 @@ public class XsdReader {
                 cellDto.setDocumentation(xsdDocumentation.getContent());
             }
         }
+        xsdComplexType.getXsdAttributes().forEach(xsdAttribute -> {
+            parseXsdAttribute(xsdAttribute, cellDto);
+        });
+        xsdComplexType.getXsdAttributeGroup().forEach(xsdAttributeGroup -> {
+            parseXsdAttributeGroup(xsdAttributeGroup, cellDto);
+        });
 
         XsdComplexContent xsdComplexContent = xsdComplexType.getComplexContent();
         if (xsdComplexContent != null) {

@@ -34,14 +34,13 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    gap: 1px;
+    gap: 5px;
     background: #effffe;
     border-radius: 10px;
     padding: 4px;
     border: 2px solid #515151;
     width: fit-content;
-    min-width: 150px;
-    max-width: 650px;
+    max-width: 400px;
     height: fit-content;
     transform: translateZ(0);
     will-change: transform;
@@ -55,6 +54,7 @@
 .description {
     overflow-wrap: break-word;
     font-size: 12px;
+    max-width: 350px
 }
 .occurs {
     display: flex;

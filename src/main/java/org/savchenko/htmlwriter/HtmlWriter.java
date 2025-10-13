@@ -141,6 +141,11 @@ public class HtmlWriter {
             container.addClass("inter-type");
         }
 
+        if (Objects.equals(cellDto.getType(), "attribute") ||
+                Objects.equals(cellDto.getType(), "attributeGroup")) {
+            container.addClass("attribute");
+        }
+
     }
 
     private void writeButton(Element container) {
