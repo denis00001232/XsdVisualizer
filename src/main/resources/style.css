@@ -147,6 +147,10 @@
     background: #ededed
 }
 
+.name-already-used {
+    color: red
+}
+
 @media (update: slow) {
     .container {
         transition: none;

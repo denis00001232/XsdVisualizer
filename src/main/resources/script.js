@@ -23,7 +23,7 @@ function fitSvgToRoot(){
     svg.style.height = `${r.height + GAP*2}px`;
 }
 fitSvgToRoot();                          // первая подгонка
-new ResizeObserver(fitSvgToRoot).observe(rootBlock);
+//new ResizeObserver(fitSvgToRoot).observe(rootBlock);
 
 /* ---- отрисовка линий с оптимизациями ---- */
 let needDraw = false;
@@ -84,6 +84,18 @@ function changeVisibility(btn){
     block.classList.toggle('container-collapsed');
     scheduleDraw();
 }
+function chooseActionClick(event, btn){
+    if (event.button === 1) {
+        changeVisibility(btn)
+    } else if (event.button === 2) {
+
+    }
+}
+
+function openInNewWindow(btn) {
+
+}
+
 function hideElement(btn){const b=btn.closest('.button');b&&!b.classList.contains('button-active')&&changeVisibility(b);}
 function showElement(btn){const b=btn.closest('.button');b&&b.classList.contains('button-active')&&changeVisibility(b);}
 function showAll(){document.querySelectorAll('.button').forEach(showElement); scheduleDraw();}

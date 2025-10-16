@@ -3,10 +3,14 @@ package org.savchenko.htmlwriter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.savchenko.ExcelReader.ExcelReader;
 import org.savchenko.dto.CellDto;
 
+import java.awt.*;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,6 +21,7 @@ import java.util.Objects;
 public class HtmlWriter {
     private String style = readFile("style.css");
     private String script = readFile("script.js");
+    private List<String> usedAlreadyStrs = List.of(ExcelReader.readColumnToArray("C:\\Users\\d.savchenko\\Desktop\\table.xlsx", 8, 0));
 
     private String readFile(String name) {
         try {
@@ -45,9 +50,12 @@ public class HtmlWriter {
         doc.body().appendElement("script").text(script);
 
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream("result.html");
+            File file = new File("result.html");
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
             fileOutputStream.write(doc.html().getBytes());
             fileOutputStream.close();
+            URI uri = file.toURI(); // корректно сформирует file:// URI
+            Desktop.getDesktop().browse(uri);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -85,9 +93,18 @@ public class HtmlWriter {
             writeButton(containerButton);
         }
         if (cellDto.getName() != null) {
-            containerInfo.appendElement("div")
-                    .attr("class", "name")
-                    .appendText(cellDto.getName());
+            if (Objects.equals(cellDto.getType(), "element")) {
+                if (usedAlreadyStrs.contains(cellDto.getName())) {
+                    containerInfo.appendElement("div")
+                            .attr("class", "name-already-used")
+                            .appendText(cellDto.getName());
+                } else {
+                    containerInfo.appendElement("div")
+                            .attr("class", "name")
+                            .appendText(cellDto.getName());
+                }
+            }
+
         }
 
         if (cellDto.getType() != null) {
@@ -127,15 +144,15 @@ public class HtmlWriter {
                     .appendText(cellDto.getDocumentation());
         }
 
-        if (Objects.equals(cellDto.getType(), "simpleType")) {
+        if (Objects.equals(cellDto.getType(), "st")) {
             container.addClass("simple-type");
         }
 
-        if (Objects.equals(cellDto.getType(), "sequence") ||
+        if (Objects.equals(cellDto.getType(), "seq") ||
                 Objects.equals(cellDto.getType(), "choice") ||
-                Objects.equals(cellDto.getType(), "complexContent") ||
+                Objects.equals(cellDto.getType(), "complexCon") ||
                 Objects.equals(cellDto.getType(), "base") ||
-                Objects.equals(cellDto.getType(), "complexType") ||
+                Objects.equals(cellDto.getType(), "ct") ||
                 Objects.equals(cellDto.getType(), "any") ||
                 Objects.equals(cellDto.getType(), "all")) {
             container.addClass("inter-type");

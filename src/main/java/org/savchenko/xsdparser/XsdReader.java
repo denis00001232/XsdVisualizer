@@ -11,6 +11,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class XsdReader {
+    private String rootElementName;
+    private XsdSchema xsdSchema;
     private XsdElement xsdElementRoot;
     private CellDto cellDtoRoot;
     private int idItr = 1;
@@ -21,6 +23,7 @@ public class XsdReader {
         if (o.isEmpty()) {
             throw new RuntimeException();
         }
+        xsdSchema = xsdParser.getResultXsdSchemas().findFirst().get();
         xsdElementRoot = o.get();
         cellDtoRoot = new CellDto();
         cellDtoRoot.setType("element");
@@ -28,8 +31,45 @@ public class XsdReader {
         parseXsdElement(xsdElementRoot, cellDtoRoot);
     }
 
+    public XsdReader(String xsdFile, String rootElementName) {
+        this.rootElementName = rootElementName;
+        XsdParser xsdParser = new XsdParser(xsdFile);
+        Optional<XsdElement> o = xsdParser.getResultXsdElements().findFirst();
+        if (o.isEmpty()) {
+            throw new RuntimeException();
+        }
+        xsdSchema = xsdParser.getResultXsdSchemas().findFirst().get();
+        xsdElementRoot = o.get();
+        cellDtoRoot = new CellDto();
+        cellDtoRoot.setType("element");
+        cellDtoRoot.setName("root");
+        parseXsdElement(xsdElementRoot, cellDtoRoot);
+    }
+
+
+
     public CellDto getReadResult() {
         return cellDtoRoot;
+    }
+
+    public CellDto getReadExactComplexType(List<String> complexTypeNames) {
+        CellDto cellDto = new CellDto();
+        cellDto.setName("root");
+        xsdSchema.getChildrenComplexTypes().forEach(xsdComplexType -> {
+            if (complexTypeNames.contains(xsdComplexType.getName())) {
+                parseXsdComplexType(xsdComplexType, cellDto);
+            }
+        });
+        return cellDto;
+    }
+
+    public CellDto getReadAllComplexTypes() {
+        CellDto cellDto = new CellDto();
+        cellDto.setName("root");
+        xsdSchema.getChildrenComplexTypes().forEach(xsdComplexType -> {
+            parseXsdComplexType(xsdComplexType, cellDto);
+        });
+        return cellDto;
     }
 
 
@@ -38,6 +78,9 @@ public class XsdReader {
         cellDtoPrev.getChildren().add(cellDto);
         cellDto.setName(xsdElement.getName());
         cellDto.setType("element");
+        if (rootElementName != null && rootElementName.equals(xsdElement.getName())) {
+            cellDtoRoot = cellDto;
+        }
         cellDto.setMinOccurs(String.valueOf(xsdElement.getMinOccurs()));
         cellDto.setMaxOccurs(xsdElement.getMaxOccurs());
 
@@ -61,14 +104,14 @@ public class XsdReader {
     private void parseSimpleType(XsdSimpleType xsdSimpleType, CellDto cellDtoPrev) {
         CellDto cellDto = new CellDto();
         cellDtoPrev.getChildren().add(cellDto);
-        cellDto.setType("simpleType");
+        cellDto.setType("st");
         cellDto.setName(xsdSimpleType.getName());
     }
 
     private void parseXsdComplexType(XsdComplexType xsdComplexType, CellDto cellDtoPrev) {
         CellDto cellDto = new CellDto();
         cellDtoPrev.getChildren().add(cellDto);
-        cellDto.setType("complexType");
+        cellDto.setType("ct");
         cellDto.setName(xsdComplexType.getName());
         if (xsdComplexType.getAnnotation() != null) {
             XsdDocumentation xsdDocumentation = xsdComplexType.getAnnotation().getDocumentations().get(0);
@@ -95,7 +138,7 @@ public class XsdReader {
     private void parseXsdComplexContent(XsdComplexContent xsdComplexContent, CellDto cellDtoPrev) {
         CellDto cellDto = new CellDto();
         cellDtoPrev.getChildren().add(cellDto);
-        cellDto.setType("complexContent");
+        cellDto.setType("complexCon");
 
         if (xsdComplexContent.getAnnotation() != null) {
             XsdDocumentation xsdDocumentation = xsdComplexContent.getAnnotation().getDocumentations().get(0);
@@ -175,7 +218,7 @@ public class XsdReader {
     private void parseXsdSequence(XsdSequence xsdSequence, CellDto cellDtoPrev) {
         CellDto cellDto = new CellDto();
         cellDtoPrev.getChildren().add(cellDto);
-        cellDto.setType("sequence");
+        cellDto.setType("seq");
 
         if (xsdSequence.getAnnotation() != null) {
             XsdDocumentation xsdDocumentation = xsdSequence.getAnnotation().getDocumentations().get(0);

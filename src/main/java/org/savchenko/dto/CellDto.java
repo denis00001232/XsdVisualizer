@@ -18,18 +18,14 @@ import java.util.Map;
 
 @Data
 public class CellDto {
-    private String uniqueId;
-
     private String minOccurs;
     private String maxOccurs;
 
     private String name;
     private String type;
 
-    private String documentation;
-    private boolean isVisible = true;
 
-    private Map<String, String> conditions = new HashMap<>();
+    private String documentation;
 
     private List<CellDto> children = new ArrayList<>();
 }
