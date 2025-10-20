@@ -7,6 +7,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.savchenko.ExcelReader.ExcelReader;
 import org.savchenko.htmlwriter.HtmlWriter;
+import org.savchenko.walker.SchemaWalker;
 import org.savchenko.xsdparser.XsdReader;
 import org.xmlet.xsdparser.core.XsdParser;
 

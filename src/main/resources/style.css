@@ -147,6 +147,10 @@
     background: #ededed
 }
 
+.ct-with-import {
+    background: #ffffff
+}
+
 .name-already-used {
     color: red
 }

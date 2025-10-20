@@ -15,13 +15,12 @@ public class XsdReader {
     private XsdSchema xsdSchema;
     private XsdElement xsdElementRoot;
     private CellDto cellDtoRoot;
-    private int idItr = 1;
 
     public XsdReader(String xsdFile) {
         XsdParser xsdParser = new XsdParser(xsdFile);
         Optional<XsdElement> o = xsdParser.getResultXsdElements().findFirst();
         if (o.isEmpty()) {
-            throw new RuntimeException();
+            return;
         }
         xsdSchema = xsdParser.getResultXsdSchemas().findFirst().get();
         xsdElementRoot = o.get();
@@ -29,14 +28,17 @@ public class XsdReader {
         cellDtoRoot.setType("element");
         cellDtoRoot.setName("root");
         parseXsdElement(xsdElementRoot, cellDtoRoot);
+        ObjectMapper objectMapper = new ObjectMapper();
     }
+
+
 
     public XsdReader(String xsdFile, String rootElementName) {
         this.rootElementName = rootElementName;
         XsdParser xsdParser = new XsdParser(xsdFile);
         Optional<XsdElement> o = xsdParser.getResultXsdElements().findFirst();
         if (o.isEmpty()) {
-            throw new RuntimeException();
+            return;
         }
         xsdSchema = xsdParser.getResultXsdSchemas().findFirst().get();
         xsdElementRoot = o.get();
@@ -44,9 +46,8 @@ public class XsdReader {
         cellDtoRoot.setType("element");
         cellDtoRoot.setName("root");
         parseXsdElement(xsdElementRoot, cellDtoRoot);
+
     }
-
-
 
     public CellDto getReadResult() {
         return cellDtoRoot;
@@ -78,7 +79,9 @@ public class XsdReader {
         cellDtoPrev.getChildren().add(cellDto);
         cellDto.setName(xsdElement.getName());
         cellDto.setType("element");
+
         if (rootElementName != null && rootElementName.equals(xsdElement.getName())) {
+            System.out.println("Название элемента: " + xsdElement.getName() + " -- Его тип: " + xsdElement.getType());
             cellDtoRoot = cellDto;
         }
         cellDto.setMinOccurs(String.valueOf(xsdElement.getMinOccurs()));
@@ -108,6 +111,7 @@ public class XsdReader {
         cellDto.setName(xsdSimpleType.getName());
     }
 
+
     private void parseXsdComplexType(XsdComplexType xsdComplexType, CellDto cellDtoPrev) {
         CellDto cellDto = new CellDto();
         cellDtoPrev.getChildren().add(cellDto);
@@ -118,6 +122,10 @@ public class XsdReader {
             if (xsdDocumentation != null) {
                 cellDto.setDocumentation(xsdDocumentation.getContent());
             }
+        }
+        if (!xsdComplexType.getXsdSchema().getTargetNamespace().equals(xsdSchema.getTargetNamespace())) {
+            cellDto.setType("ct externalImport");
+            return;
         }
         xsdComplexType.getXsdAttributes().forEach(xsdAttribute -> {
             parseXsdAttribute(xsdAttribute, cellDto);
@@ -238,6 +246,7 @@ public class XsdReader {
         cellDto.setType("group");
         cellDto.setMinOccurs(String.valueOf(xsdGroup.getMinOccurs()));
         cellDto.setMaxOccurs(xsdGroup.getMaxOccurs());
+        System.out.println(xsdGroup.getAnnotation());
 
         if (xsdGroup.getAnnotation() != null) {
             XsdDocumentation xsdDocumentation = xsdGroup.getAnnotation().getDocumentations().get(0);

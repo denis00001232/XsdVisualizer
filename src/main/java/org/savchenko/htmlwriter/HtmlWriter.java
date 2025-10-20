@@ -21,7 +21,6 @@ import java.util.Objects;
 public class HtmlWriter {
     private String style = readFile("style.css");
     private String script = readFile("script.js");
-    private List<String> usedAlreadyStrs = List.of(ExcelReader.readColumnToArray("C:\\Users\\d.savchenko\\Desktop\\table.xlsx", 8, 0));
 
     private String readFile(String name) {
         try {
@@ -93,18 +92,9 @@ public class HtmlWriter {
             writeButton(containerButton);
         }
         if (cellDto.getName() != null) {
-            if (Objects.equals(cellDto.getType(), "element")) {
-                if (usedAlreadyStrs.contains(cellDto.getName())) {
-                    containerInfo.appendElement("div")
-                            .attr("class", "name-already-used")
-                            .appendText(cellDto.getName());
-                } else {
-                    containerInfo.appendElement("div")
-                            .attr("class", "name")
-                            .appendText(cellDto.getName());
-                }
-            }
-
+            containerInfo.appendElement("div")
+                    .attr("class", "name")
+                    .appendText(cellDto.getName());
         }
 
         if (cellDto.getType() != null) {
@@ -112,8 +102,10 @@ public class HtmlWriter {
                     .attr("class", "element")
                     .appendText(cellDto.getType());
         }
+
         Element occurs = containerInfo.appendElement("div")
                 .attr("class", "occurs");
+
         if (cellDto.getMinOccurs() != null) {
             occurs.appendElement("div")
                     .attr("class", "occurs")
@@ -156,6 +148,10 @@ public class HtmlWriter {
                 Objects.equals(cellDto.getType(), "any") ||
                 Objects.equals(cellDto.getType(), "all")) {
             container.addClass("inter-type");
+        }
+
+        if (Objects.equals(cellDto.getType(), "ct externalImport")) {
+            container.addClass("ct-with-import");
         }
 
         if (Objects.equals(cellDto.getType(), "attribute") ||
