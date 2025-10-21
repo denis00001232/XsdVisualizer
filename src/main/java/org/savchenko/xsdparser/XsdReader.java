@@ -6,72 +6,62 @@ import org.savchenko.dto.CellDto;
 import org.xmlet.xsdparser.core.XsdParser;
 import org.xmlet.xsdparser.xsdelements.*;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class XsdReader {
-    private String rootElementName;
     private XsdSchema xsdSchema;
     private XsdElement xsdElementRoot;
-    private CellDto cellDtoRoot;
+    private List<CellDto> cellDtoList = new ArrayList<>();
+    private Set<String> alreadyReadenNames = new HashSet<>();
+    private Queue<XsdComplexType> otherComplexTypes = new LinkedList<>();
+    private boolean isNav = false;
 
-    public XsdReader(String xsdFile) {
+
+
+
+    public CellDto readSchemaElement(String xsdFile) {
         XsdParser xsdParser = new XsdParser(xsdFile);
         Optional<XsdElement> o = xsdParser.getResultXsdElements().findFirst();
         if (o.isEmpty()) {
-            return;
+            throw new RuntimeException("o is empty");
         }
         xsdSchema = xsdParser.getResultXsdSchemas().findFirst().get();
         xsdElementRoot = o.get();
-        cellDtoRoot = new CellDto();
+        CellDto cellDtoRoot = new CellDto();
         cellDtoRoot.setType("element");
+        cellDtoRoot.setFileName(xsdElementRoot.getName());
         cellDtoRoot.setName("root");
         parseXsdElement(xsdElementRoot, cellDtoRoot);
-        ObjectMapper objectMapper = new ObjectMapper();
-    }
-
-
-
-    public XsdReader(String xsdFile, String rootElementName) {
-        this.rootElementName = rootElementName;
-        XsdParser xsdParser = new XsdParser(xsdFile);
-        Optional<XsdElement> o = xsdParser.getResultXsdElements().findFirst();
-        if (o.isEmpty()) {
-            return;
-        }
-        xsdSchema = xsdParser.getResultXsdSchemas().findFirst().get();
-        xsdElementRoot = o.get();
-        cellDtoRoot = new CellDto();
-        cellDtoRoot.setType("element");
-        cellDtoRoot.setName("root");
-        parseXsdElement(xsdElementRoot, cellDtoRoot);
-
-    }
-
-    public CellDto getReadResult() {
         return cellDtoRoot;
     }
 
-    public CellDto getReadExactComplexType(List<String> complexTypeNames) {
-        CellDto cellDto = new CellDto();
-        cellDto.setName("root");
-        xsdSchema.getChildrenComplexTypes().forEach(xsdComplexType -> {
-            if (complexTypeNames.contains(xsdComplexType.getName())) {
-                parseXsdComplexType(xsdComplexType, cellDto);
-            }
-        });
-        return cellDto;
+
+    public List<CellDto> readSchemaElementAsNav(String xsdFile) { //Читает и выносит все complexType в отдельные html, очень экономно по пространству и удобно для восприятия
+        isNav = true;
+        XsdParser xsdParser = new XsdParser(xsdFile);
+        Optional<XsdElement> o = xsdParser.getResultXsdElements().findFirst();
+        if (o.isEmpty()) {
+            throw new RuntimeException("o is empty");
+        }
+        xsdSchema = xsdParser.getResultXsdSchemas().findFirst().get();
+        xsdElementRoot = o.get();
+
+        CellDto cellDtoRoot = new CellDto();
+        cellDtoRoot.setType("element");
+        cellDtoRoot.setName("root");
+
+        cellDtoList.add(cellDtoRoot);
+
+        parseXsdComplexTypeRoot(xsdElementRoot.getXsdComplexType(), cellDtoRoot);
+
+        while (!otherComplexTypes.isEmpty()) {
+            XsdComplexType xsdComplexType = otherComplexTypes.poll();
+            createNewCellDtoTree(xsdComplexType);
+        }
+
+        return cellDtoList;
     }
 
-    public CellDto getReadAllComplexTypes() {
-        CellDto cellDto = new CellDto();
-        cellDto.setName("root");
-        xsdSchema.getChildrenComplexTypes().forEach(xsdComplexType -> {
-            parseXsdComplexType(xsdComplexType, cellDto);
-        });
-        return cellDto;
-    }
 
 
     private void parseXsdElement(XsdElement xsdElement, CellDto cellDtoPrev) {
@@ -80,10 +70,6 @@ public class XsdReader {
         cellDto.setName(xsdElement.getName());
         cellDto.setType("element");
 
-        if (rootElementName != null && rootElementName.equals(xsdElement.getName())) {
-            System.out.println("Название элемента: " + xsdElement.getName() + " -- Его тип: " + xsdElement.getType());
-            cellDtoRoot = cellDto;
-        }
         cellDto.setMinOccurs(String.valueOf(xsdElement.getMinOccurs()));
         cellDto.setMaxOccurs(xsdElement.getMaxOccurs());
 
@@ -104,13 +90,18 @@ public class XsdReader {
 
     }
 
-    private void parseSimpleType(XsdSimpleType xsdSimpleType, CellDto cellDtoPrev) {
-        CellDto cellDto = new CellDto();
-        cellDtoPrev.getChildren().add(cellDto);
-        cellDto.setType("st");
-        cellDto.setName(xsdSimpleType.getName());
+
+    private String createFileName(XsdComplexType xsdComplexType) {
+        return crateNameFromNameSpace(xsdComplexType.getXsdSchema().getTargetNamespace()) + xsdComplexType.getName() + ".html";
     }
 
+    private void createNewCellDtoTree(XsdComplexType xsdComplexType) {
+        CellDto cellDtoRoot = new CellDto();
+        cellDtoRoot.setType("schema");
+        cellDtoRoot.setName("root");
+        cellDtoList.add(cellDtoRoot);
+        parseXsdComplexTypeRoot(xsdComplexType, cellDtoRoot);
+    }
 
     private void parseXsdComplexType(XsdComplexType xsdComplexType, CellDto cellDtoPrev) {
         CellDto cellDto = new CellDto();
@@ -123,10 +114,48 @@ public class XsdReader {
                 cellDto.setDocumentation(xsdDocumentation.getContent());
             }
         }
-        if (!xsdComplexType.getXsdSchema().getTargetNamespace().equals(xsdSchema.getTargetNamespace())) {
-            cellDto.setType("ct externalImport");
-            return;
+        if (isNav) {
+            if (xsdComplexType.getName() != null) {
+                cellDto.setType("ct externalImport"); //ct externalImport
+                cellDto.setLinkToChild(createFileName(xsdComplexType));
+                if (alreadyReadenNames.add(createFileName(xsdComplexType))) {
+                    otherComplexTypes.add(xsdComplexType);
+                }
+                return;
+            }
         }
+
+
+        xsdComplexType.getXsdAttributes().forEach(xsdAttribute -> {
+            parseXsdAttribute(xsdAttribute, cellDto);
+        });
+        xsdComplexType.getXsdAttributeGroup().forEach(xsdAttributeGroup -> {
+            parseXsdAttributeGroup(xsdAttributeGroup, cellDto);
+        });
+
+        XsdComplexContent xsdComplexContent = xsdComplexType.getComplexContent();
+        if (xsdComplexContent != null) {
+            parseXsdComplexContent(xsdComplexContent, cellDto);
+        } else {
+            XsdAbstractElement xsdAbstractElement = xsdComplexType.getXsdChildElement();
+            determinateAbstractElement(xsdAbstractElement, cellDto);
+        }
+    }
+
+
+    private void parseXsdComplexTypeRoot(XsdComplexType xsdComplexType, CellDto cellDtoPrev) {
+        CellDto cellDto = new CellDto();
+        cellDtoPrev.getChildren().add(cellDto);
+        cellDto.setType("ct");
+        cellDtoPrev.setFileName(createFileName(xsdComplexType));
+        cellDto.setName(xsdComplexType.getName());
+        if (xsdComplexType.getAnnotation() != null) {
+            XsdDocumentation xsdDocumentation = xsdComplexType.getAnnotation().getDocumentations().get(0);
+            if (xsdDocumentation != null) {
+                cellDto.setDocumentation(xsdDocumentation.getContent());
+            }
+        }
+
         xsdComplexType.getXsdAttributes().forEach(xsdAttribute -> {
             parseXsdAttribute(xsdAttribute, cellDto);
         });
@@ -246,8 +275,6 @@ public class XsdReader {
         cellDto.setType("group");
         cellDto.setMinOccurs(String.valueOf(xsdGroup.getMinOccurs()));
         cellDto.setMaxOccurs(xsdGroup.getMaxOccurs());
-        System.out.println(xsdGroup.getAnnotation());
-
         if (xsdGroup.getAnnotation() != null) {
             XsdDocumentation xsdDocumentation = xsdGroup.getAnnotation().getDocumentations().get(0);
             if (xsdDocumentation != null) {
@@ -317,4 +344,18 @@ public class XsdReader {
         });
     }
 
+    private void parseSimpleType(XsdSimpleType xsdSimpleType, CellDto cellDtoPrev) {
+        CellDto cellDto = new CellDto();
+        cellDtoPrev.getChildren().add(cellDto);
+        cellDto.setType("st");
+        cellDto.setName(xsdSimpleType.getName());
+    }
+
+    private String crateNameFromNameSpace(String nameSpace) {
+        nameSpace = nameSpace.replace("http://", "");
+        nameSpace = nameSpace.replace("/", "_");
+        nameSpace = nameSpace.replace(".xsd", "");
+        nameSpace += "_";
+        return nameSpace;
+    }
 }

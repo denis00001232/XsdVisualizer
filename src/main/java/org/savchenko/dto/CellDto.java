@@ -20,6 +20,8 @@ import java.util.Map;
 public class CellDto {
     private String minOccurs;
     private String maxOccurs;
+    private String fileName;
+    private String linkToChild;
 
     private String name;
     private String type;
@@ -28,4 +30,8 @@ public class CellDto {
     private String documentation;
 
     private List<CellDto> children = new ArrayList<>();
+
+
+
+    public CellDto() {}
 }

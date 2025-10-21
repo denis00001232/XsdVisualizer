@@ -20,6 +20,7 @@ import java.util.Objects;
 
 public class HtmlWriter {
     private String style = readFile("style.css");
+    private String styleTable = readFile("style_table.css");
     private String script = readFile("script.js");
 
     private String readFile(String name) {
@@ -31,11 +32,15 @@ public class HtmlWriter {
         }
     }
 
+    /**
+     * Создает html представление от одного рута
+     * @param cellDtoRoot
+     */
     public void writeHtml(CellDto cellDtoRoot) {
         Document doc = Jsoup.parse("<html></html>");
         doc.outputSettings().charset("UTF-8"); // Важно!
         doc.head().appendElement("meta").attr("charset", "UTF-8");
-        doc.title("Моя страница");
+        doc.title(cellDtoRoot.getFileName());
         doc.head().appendElement("style").text(style);
         doc.body().appendElement("svg")
                 .attr("class", "connectors-container")
@@ -49,15 +54,61 @@ public class HtmlWriter {
         doc.body().appendElement("script").text(script);
 
         try {
-            File file = new File("result.html");
+            File file = new File("schema_doc/schemas/" + cellDtoRoot.getFileName());
+            File parentDir = file.getParentFile();
+            if (parentDir != null && !parentDir.exists()) {
+                parentDir.mkdirs();
+            }
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             fileOutputStream.write(doc.html().getBytes());
             fileOutputStream.close();
-            URI uri = file.toURI(); // корректно сформирует file:// URI
-            Desktop.getDesktop().browse(uri);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void writeNavTable(List<CellDto> cellDtoList) {
+        Document doc = Jsoup.parse("<html></html>");
+        doc.outputSettings().charset("UTF-8"); // Важно!
+        doc.head().appendElement("meta").attr("charset", "UTF-8");
+        doc.title("Навигационная страница");
+        doc.head().appendElement("style").text(styleTable);
+        Element table = doc.body().appendElement("table").attr("class", "styled-table");
+        Element row = table.appendElement("tr");
+        row.appendElement("th")
+                .appendText("Название структуры и ссылка на нее");
+        row.appendElement("th")
+                .appendText("Ее описание");
+        for (CellDto cellDto : cellDtoList) {
+            row = table.appendElement("tr");
+            row.appendElement("td").appendElement("a")
+                    .attr("href", "schemas/" + cellDto.getFileName())
+                    .attr("target", "_blank")
+                    .appendText(cellDto.getChildren().get(0).getName());
+            row.appendElement("td")
+                    .appendText(cellDto.getChildren().get(0).getDocumentation());
+        }
+
+
+        try {
+            File file = new File("schema_doc/Навигационная панель.html");
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(doc.html().getBytes());
+            fileOutputStream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private void navigateToFile(File file) {
+        try {
+            URI uri = file.toURI(); // корректно сформирует file:// URI
+            Desktop.getDesktop().browse(uri);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     private void writeNavigationPanel(Element element) {
@@ -75,10 +126,25 @@ public class HtmlWriter {
     private void writeContainerRoot(Element rootElement, CellDto cellDto) {
         Element container = rootElement.appendElement("div")
                 .attr("class", "container");
+        Element containerInfo = container.appendElement("div")
+                .attr("class", "container-info");
 
-        container.appendElement("div")
-                .attr("class", "name")
-                .appendText(String.valueOf(cellDto.getName()));
+        if (cellDto.getName() != null) {
+            containerInfo.appendElement("div")
+                    .attr("class", "name")
+                    .appendText(cellDto.getName());
+        }
+
+        if (cellDto.getDocumentation() != null) {
+            containerInfo.appendElement("div")
+                    .attr("class", "description")
+                    .appendText(cellDto.getDocumentation());
+        }
+        if (cellDto.getLinkToChild() != null) {
+            containerInfo.appendElement("div")
+                    .attr("class", "name")
+                    .appendText(cellDto.getLinkToChild());
+        }
     }
 
     private void writeContainer(Element rootElement, CellDto cellDto) {
@@ -92,9 +158,17 @@ public class HtmlWriter {
             writeButton(containerButton);
         }
         if (cellDto.getName() != null) {
-            containerInfo.appendElement("div")
-                    .attr("class", "name")
-                    .appendText(cellDto.getName());
+            if (cellDto.getLinkToChild() != null) {
+                containerInfo.appendElement("a")
+                        .attr("class", "name-link")
+                        .attr("href", cellDto.getLinkToChild())
+                        .appendText(cellDto.getName());
+            } else {
+                containerInfo.appendElement("div")
+                        .attr("class", "name")
+                        .appendText(cellDto.getName());
+            }
+
         }
 
         if (cellDto.getType() != null) {
@@ -158,7 +232,6 @@ public class HtmlWriter {
                 Objects.equals(cellDto.getType(), "attributeGroup")) {
             container.addClass("attribute");
         }
-
     }
 
     private void writeButton(Element container) {
