@@ -18,12 +18,20 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws JsonProcessingException {
-        XsdReader xsdReader = new XsdReader();
-        List<CellDto> cellDtoList = xsdReader.readSchemaElementAsNav("C:\\Users\\d.savchenko\\Desktop\\buildschemas\\xsd\\exon\\finScoringTax.xsd");
-        HtmlWriter htmlWriter = new HtmlWriter();
-        for (CellDto cellDto : cellDtoList) {
-            htmlWriter.writeHtml(cellDto);
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            try {
+                XsdReader xsdReader = new XsdReader();
+                List<CellDto> cellDtoList = xsdReader.readSchemaElementAsNav(scanner.nextLine());
+                HtmlWriter htmlWriter = new HtmlWriter();
+                for (CellDto cellDto : cellDtoList) {
+                    htmlWriter.writeHtml(cellDto);
+                }
+                htmlWriter.writeNavTable(cellDtoList);
+            } catch (Exception e) {
+                System.out.println("Введен нехороший формат");
+                e.printStackTrace();
+            }
         }
-        htmlWriter.writeNavTable(cellDtoList);
     }
 }

@@ -92,7 +92,11 @@ public class XsdReader {
 
 
     private String createFileName(XsdComplexType xsdComplexType) {
-        return crateNameFromNameSpace(xsdComplexType.getXsdSchema().getTargetNamespace()) + xsdComplexType.getName() + ".html";
+        try {
+            return crateNameFromNameSpace(xsdComplexType.getXsdSchema().getTargetNamespace()) + xsdComplexType.getName() + ".html";
+        } catch (Exception e) {
+            return "null_pointer";
+        }
     }
 
     private void createNewCellDtoTree(XsdComplexType xsdComplexType) {

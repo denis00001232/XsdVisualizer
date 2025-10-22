@@ -86,13 +86,14 @@ public class HtmlWriter {
                     .attr("target", "_blank")
                     .appendText(cellDto.getChildren().get(0).getName());
             row.appendElement("td")
-                    .appendText(cellDto.getChildren().get(0).getDocumentation());
+                    .appendText(String.valueOf(cellDto.getChildren().get(0).getDocumentation()));
         }
 
 
         try {
             File file = new File("schema_doc/Навигационная панель.html");
             FileOutputStream fileOutputStream = new FileOutputStream(file);
+            navigateToFile(file);
             fileOutputStream.write(doc.html().getBytes());
             fileOutputStream.close();
         } catch (IOException e) {
