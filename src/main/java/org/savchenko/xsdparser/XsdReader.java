@@ -86,7 +86,10 @@ public class XsdReader {
             parseXsdComplexType(xsdComplexType, cellDto);
         } else if (xsdSimpleType != null){
             parseSimpleType(xsdSimpleType, cellDto);
-        };
+        } else if (xsdElement.getType() != null) {
+            createBaseSimpleType(xsdElement.getType(), cellDto);
+        }
+
 
     }
 
@@ -128,7 +131,6 @@ public class XsdReader {
                 return;
             }
         }
-
 
         xsdComplexType.getXsdAttributes().forEach(xsdAttribute -> {
             parseXsdAttribute(xsdAttribute, cellDto);
@@ -346,6 +348,13 @@ public class XsdReader {
         xsdAny.getXsdElements().forEach(xsdAbstractElement -> {
             determinateAbstractElement(xsdAbstractElement, cellDto);
         });
+    }
+
+    private void createBaseSimpleType(String baseName, CellDto cellDtoPrev) {
+        CellDto cellDto = new CellDto();
+        cellDtoPrev.getChildren().add(cellDto);
+        cellDto.setType("st");
+        cellDto.setName(baseName);
     }
 
     private void parseSimpleType(XsdSimpleType xsdSimpleType, CellDto cellDtoPrev) {
