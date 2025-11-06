@@ -71,14 +71,14 @@ public class HtmlWriter {
         Document doc = Jsoup.parse("<html></html>");
         doc.outputSettings().charset("UTF-8"); // Важно!
         doc.head().appendElement("meta").attr("charset", "UTF-8");
-        doc.title("Навигационная страница");
+        doc.title("Navigation page");
         doc.head().appendElement("style").text(styleTable);
         Element table = doc.body().appendElement("table").attr("class", "styled-table");
         Element row = table.appendElement("tr");
         row.appendElement("th")
-                .appendText("Название структуры и ссылка на нее");
+                .appendText("Structure name");
         row.appendElement("th")
-                .appendText("Ее описание");
+                .appendText("Description");
         for (CellDto cellDto : cellDtoList) {
             row = table.appendElement("tr");
             row.appendElement("td").appendElement("a")
@@ -91,7 +91,7 @@ public class HtmlWriter {
 
 
         try {
-            File file = new File("schema_doc/Навигационная панель.html");
+            File file = new File("schema_doc/NavigationPanel.html");
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             navigateToFile(file);
             fileOutputStream.write(doc.html().getBytes());
@@ -117,11 +117,11 @@ public class HtmlWriter {
         element.appendElement("div")
                 .attr("class", "button-panel")
                 .attr("onclick", "showAll()")
-                .appendText("Показать все элементы");
+                .appendText("Show all element");
         element.appendElement("div")
                 .attr("class", "button-panel")
                 .attr("onclick", "hideAll()")
-                .appendText("скрыть все элементы");
+                .appendText("Hide all elements");
     }
 
     private void writeContainerRoot(Element rootElement, CellDto cellDto) {
@@ -134,6 +134,12 @@ public class HtmlWriter {
             containerInfo.appendElement("div")
                     .attr("class", "name")
                     .appendText(cellDto.getName());
+        }
+
+        if (cellDto.getTargetNameSpace() != null) {
+            containerInfo.appendElement("div")
+                    .attr("class", "namespace")
+                    .appendText(cellDto.getTargetNameSpace());
         }
 
         if (cellDto.getDocumentation() != null) {
@@ -172,6 +178,12 @@ public class HtmlWriter {
 
         }
 
+        if (cellDto.getTargetNameSpace() != null) {
+            containerInfo.appendElement("div")
+                    .attr("class", "namespace")
+                    .appendText(cellDto.getTargetNameSpace());
+        }
+
         if (cellDto.getType() != null) {
             containerInfo.appendElement("div")
                     .attr("class", "element")
@@ -208,7 +220,7 @@ public class HtmlWriter {
         if (cellDto.getDocumentation() != null) {
             containerInfo.appendElement("div")
                     .attr("class", "description")
-                    .appendText(cellDto.getDocumentation());
+                    .text(cellDto.getDocumentation());
         }
 
         if (Objects.equals(cellDto.getType(), "st")) {
@@ -225,7 +237,7 @@ public class HtmlWriter {
             container.addClass("inter-type");
         }
 
-        if (Objects.equals(cellDto.getType(), "ct externalImport")) {
+        if (cellDto.getLinkToChild() != null) {
             container.addClass("ct-with-import");
         }
 
@@ -236,13 +248,6 @@ public class HtmlWriter {
     }
 
     private void writeButton(Element container) {
-        Element button = container.appendElement("div")
-                .attr("class", "button")
-                .attr("onclick", "changeVisibility(this)");
-        button.appendElement("div").attr("class", "button-text").appendText("-");
-    }
-
-    private void writeButtonOpenAll(Element container) {
         Element button = container.appendElement("div")
                 .attr("class", "button")
                 .attr("onclick", "changeVisibility(this)");

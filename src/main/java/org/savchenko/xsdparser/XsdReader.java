@@ -1,7 +1,5 @@
 package org.savchenko.xsdparser;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.savchenko.dto.CellDto;
 import org.xmlet.xsdparser.core.XsdParser;
 import org.xmlet.xsdparser.xsdelements.*;
@@ -15,8 +13,6 @@ public class XsdReader {
     private Set<String> alreadyReadenNames = new HashSet<>();
     private Queue<XsdComplexType> otherComplexTypes = new LinkedList<>();
     private boolean isNav = false;
-
-
 
 
     public CellDto readSchemaElement(String xsdFile) {
@@ -63,7 +59,6 @@ public class XsdReader {
     }
 
 
-
     private void parseXsdElement(XsdElement xsdElement, CellDto cellDtoPrev) {
         CellDto cellDto = new CellDto();
         cellDtoPrev.getChildren().add(cellDto);
@@ -84,7 +79,7 @@ public class XsdReader {
         XsdSimpleType xsdSimpleType = xsdElement.getXsdSimpleType();
         if (xsdComplexType != null) {
             parseXsdComplexType(xsdComplexType, cellDto);
-        } else if (xsdSimpleType != null){
+        } else if (xsdSimpleType != null) {
             parseSimpleType(xsdSimpleType, cellDto);
         } else if (xsdElement.getType() != null) {
             createBaseSimpleType(xsdElement.getType(), cellDto);
@@ -96,9 +91,10 @@ public class XsdReader {
 
     private String createFileName(XsdComplexType xsdComplexType) {
         try {
-            return crateNameFromNameSpace(xsdComplexType.getXsdSchema().getTargetNamespace()) + xsdComplexType.getName() + ".html";
+            String name = crateNameFromNameSpace(xsdComplexType.getXsdSchema().getTargetNamespace()) + xsdComplexType.getName() + ".html";
+            return name.replaceAll("#", "sharp");
         } catch (Exception e) {
-            return "null_pointer";
+            return xsdComplexType.getName() + UUID.randomUUID() + ".html";
         }
     }
 
@@ -123,8 +119,11 @@ public class XsdReader {
         }
         if (isNav) {
             if (xsdComplexType.getName() != null) {
-                cellDto.setType("ct externalImport"); //ct externalImport
                 cellDto.setLinkToChild(createFileName(xsdComplexType));
+                try {
+                    cellDto.setTargetNameSpace(xsdComplexType.getXsdSchema().getTargetNamespace());
+                } catch (Exception e) {
+                }
                 if (alreadyReadenNames.add(createFileName(xsdComplexType))) {
                     otherComplexTypes.add(xsdComplexType);
                 }
@@ -151,6 +150,10 @@ public class XsdReader {
 
     private void parseXsdComplexTypeRoot(XsdComplexType xsdComplexType, CellDto cellDtoPrev) {
         CellDto cellDto = new CellDto();
+        try {
+            cellDto.setTargetNameSpace(xsdComplexType.getXsdSchema().getTargetNamespace());
+        } catch (Exception e) {
+        }
         cellDtoPrev.getChildren().add(cellDto);
         cellDto.setType("ct");
         cellDtoPrev.setFileName(createFileName(xsdComplexType));
@@ -160,6 +163,8 @@ public class XsdReader {
             if (xsdDocumentation != null) {
                 cellDto.setDocumentation(xsdDocumentation.getContent());
             }
+        } else {
+            cellDto.setDocumentation("no description");
         }
 
         xsdComplexType.getXsdAttributes().forEach(xsdAttribute -> {
@@ -360,6 +365,9 @@ public class XsdReader {
     private void parseSimpleType(XsdSimpleType xsdSimpleType, CellDto cellDtoPrev) {
         CellDto cellDto = new CellDto();
         cellDtoPrev.getChildren().add(cellDto);
+        try {
+            cellDto.setTargetNameSpace(xsdSimpleType.getXsdSchema().getTargetNamespace());
+        } catch (Exception e) {}
         cellDto.setType("st");
         cellDto.setName(xsdSimpleType.getName());
     }

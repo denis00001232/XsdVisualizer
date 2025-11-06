@@ -40,7 +40,7 @@
     padding: 4px;
     border: 2px solid #515151;
     width: fit-content;
-    max-width: 400px;
+    max-width: 800px;
     height: fit-content;
     transform: translateZ(0);
     will-change: transform;
@@ -61,6 +61,11 @@
     overflow-wrap: break-word;
     font-size: 12px;
     max-width: 350px
+}
+.namespace {
+    font-size: 12px;
+    font-weight: 300;
+    color:  #9c6f00;
 }
 .occurs {
     display: flex;
