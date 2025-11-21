@@ -67,6 +67,37 @@ public class HtmlWriter {
         }
     }
 
+    public void writeSingleHtml(CellDto cellDtoRoot) {
+        Document doc = Jsoup.parse("<html></html>");
+        doc.outputSettings().charset("UTF-8"); // Важно!
+        doc.head().appendElement("meta").attr("charset", "UTF-8");
+        doc.title(cellDtoRoot.getFileName());
+        doc.head().appendElement("style").text(style);
+        doc.body().appendElement("svg")
+                .attr("class", "connectors-container")
+                .attr("id", "svgLayer");
+        Element containerNavigation = doc.body().appendElement("div");
+        writeNavigationPanel(containerNavigation);
+        Element containerBlockRoot = doc.body().appendElement("div")
+                .attr("class", "container-block-root");
+        writeContainerRoot(containerBlockRoot, cellDtoRoot);
+        writeContainerSequence(containerBlockRoot, cellDtoRoot);
+        doc.body().appendElement("script").text(script);
+
+        try {
+            File file = new File("schema_doc/schemas/" + cellDtoRoot.getFileName() + ".html");
+            File parentDir = file.getParentFile();
+            if (parentDir != null && !parentDir.exists()) {
+                parentDir.mkdirs();
+            }
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(doc.html().getBytes());
+            fileOutputStream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void writeNavTable(List<CellDto> cellDtoList) {
         Document doc = Jsoup.parse("<html></html>");
         doc.outputSettings().charset("UTF-8"); // Важно!
@@ -80,13 +111,17 @@ public class HtmlWriter {
         row.appendElement("th")
                 .appendText("Description");
         for (CellDto cellDto : cellDtoList) {
-            row = table.appendElement("tr");
-            row.appendElement("td").appendElement("a")
-                    .attr("href", "schemas/" + cellDto.getFileName())
-                    .attr("target", "_blank")
-                    .appendText(cellDto.getChildren().get(0).getName());
-            row.appendElement("td")
-                    .appendText(String.valueOf(cellDto.getChildren().get(0).getDocumentation()));
+            try {
+                row = table.appendElement("tr");
+                row.appendElement("td").appendElement("a")
+                        .attr("href", "schemas/" + cellDto.getFileName())
+                        .attr("target", "_blank")
+                        .appendText(cellDto.getChildren().get(0).getName());
+                row.appendElement("td")
+                        .appendText(String.valueOf(cellDto.getChildren().get(0).getDocumentation()));
+            } catch (Exception e) {
+
+            }
         }
 
 

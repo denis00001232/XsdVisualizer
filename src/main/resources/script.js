@@ -1,109 +1,212 @@
-const GAP    = 40;
+const GAP = 40;
 const STROKE = '#333';
-const WIDTH  = 2;
+const WIDTH = 2;
+const RADIUS = 8; // Радиус закругления углов
+const conts = Array.from(document.querySelectorAll('.container'));
+let blockDraw = false
 
-const svg       = document.getElementById('svgLayer');
+const svg = document.getElementById('svgLayer');
 const rootBlock = document.querySelector('.container-block-root');
 
-/* ---- утилита создания линии ---- */
-function createLine(x1,y1,x2,y2){
-    const l = document.createElementNS('http://www.w3.org/2000/svg','line');
-    l.setAttribute('x1',x1); l.setAttribute('y1',y1);
-    l.setAttribute('x2',x2); l.setAttribute('y2',y2);
-    l.setAttribute('stroke',STROKE);
-    l.setAttribute('stroke-width',WIDTH);
-    l.setAttribute('stroke-linecap','round');
-    return l;
+/* ---- устанавливаем размер SVG один раз при инициализации ---- */
+function fitSvgToRoot() {
+    if (!rootBlock || !svg) return;
+
+    // Временно разворачиваем всё для получения максимального размера
+    const collapsedBlocks = [];
+    document.querySelectorAll('.container-collapsed').forEach(block => {
+        collapsedBlocks.push(block);
+        block.classList.remove('container-collapsed');
+    });
+
+    // Небольшая задержка для применения стилей
+    requestAnimationFrame(() => {
+        const r = rootBlock.getBoundingClientRect();
+        const gap2 = GAP * 2;
+
+        svg.style.width = `${r.width + gap2}px`;
+        svg.style.height = `${r.height + gap2}px`;
+
+        // Возвращаем collapsed состояние обратно
+        collapsedBlocks.forEach(block => {
+            block.classList.add('container-collapsed');
+        });
+
+        // Рисуем линии после восстановления состояния
+        drawLines();
+    });
 }
 
-/* ---- авто-размер SVG относительно root ---- */
-function fitSvgToRoot(){
-    const r = rootBlock.getBoundingClientRect();
-    svg.style.width  = `${r.width  + GAP*2}px`;
-    svg.style.height = `${r.height + GAP*2}px`;
-}
-fitSvgToRoot();                          // первая подгонка
-//new ResizeObserver(fitSvgToRoot).observe(rootBlock);
+/* ---- ГЛАВНАЯ функция отрисовки ---- */
+function drawLines() {
+    if (blockDraw) {
+        return
+    }
+    console.log("Рисую линию")
+    if (!svg || !conts.length) return;
 
-/* ---- отрисовка линий с оптимизациями ---- */
-let needDraw = false;
-function scheduleDraw(){
-    if(needDraw) return;
-    needDraw = true;
-    requestAnimationFrame(()=>{needDraw=false; drawLines();});
-}
+    // Очищаем SVG
+    svg.innerHTML = '';
 
-function drawLines(){
-    svg.innerHTML='';
-    const conts = Array.from(document.querySelectorAll('.container'));
-    const rects = new Map(conts.map(el=>[el,el.getBoundingClientRect()]));
-    const sx = window.pageXOffset || document.documentElement.scrollLeft;
-    const sy = window.pageYOffset || document.documentElement.scrollTop;
-    const frag = document.createDocumentFragment();
+    // Получаем все контейнеры и их позиции (один проход)
+    const rects = new Map();
+    for (const el of conts) {
+        rects.set(el, el.getBoundingClientRect());
+    }
 
-    for(const el of conts){
+    const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+
+    // Строим одну большую строку path для всех линий
+    let pathData = '';
+
+    for (const el of conts) {
         const block = el.parentElement;
-        if(block.classList.contains('container-collapsed')) continue;
+        if (!block || block.classList.contains('container-collapsed')) continue;
 
         const seq = block.querySelector(':scope > .container-sequence');
-        if(!seq || seq.children.length===0) continue;
+        if (!seq || !seq.children.length) continue;
 
-        const r  = rects.get(el);
-        const cx = r.right + sx;
-        const cy = r.top   + sy + r.height/2;
+        const r = rects.get(el);
+        if (!r) continue;
+
+        const cy = r.top + scrollY + r.height / 2;
+        const cx = r.right + scrollX;
         const vx = cx + GAP;
 
-        frag.appendChild(createLine(cx,cy,vx,cy));
+        // Горизонтальная линия от родителя
+        pathData += `M${cx},${cy}L${vx},${cy}`;
 
-        let minY=cy, maxY=cy;
+        let minY = cy;
+        let maxY = cy;
 
-        const kids = Array.from(seq.children, b=>b.querySelector(':scope > .container'));
-        for(const kid of kids){
+        // Собираем данные по детям за один проход
+        const kidsData = [];
+
+        for (const childBlock of seq.children) {
+            const kid = childBlock.querySelector(':scope > .container');
+            if (!kid) continue;
+
             const kr = rects.get(kid);
-            const ky = kr.top + sy + kr.height/2;
-            const kx = kr.left + sx;
-            frag.appendChild(createLine(kx,ky,kx-GAP,ky));
-            minY=Math.min(minY,ky); maxY=Math.max(maxY,ky);
+            if (!kr) continue;
+
+            const ky = kr.top + scrollY + kr.height / 2;
+            const kx = kr.left + scrollX;
+
+            kidsData.push({ kx, ky });
+
+            if (ky < minY) minY = ky;
+            if (ky > maxY) maxY = ky;
         }
-        frag.appendChild(createLine(vx,minY,vx,maxY));
+
+        if (!kidsData.length) continue;
+
+        // Случай с одним ребенком
+        if (kidsData.length === 1) {
+            const { kx, ky } = kidsData[0];
+            // Просто прямая линия
+            pathData += `M${vx},${ky}L${kx},${ky}`;
+            continue;
+        }
+
+        // Случай с несколькими детьми
+        // Вертикальная линия с учетом закругления только на краях
+        if (minY < cy) {
+            pathData += `M${vx},${minY + RADIUS}L${vx},${maxY - RADIUS}`;
+        } else if (maxY > cy) {
+            pathData += `M${vx},${minY + RADIUS}L${vx},${maxY - RADIUS}`;
+        }
+
+        // Горизонтальные линии к детям с закруглениями только для крайних
+        for (let i = 0; i < kidsData.length; i++) {
+            const { kx, ky } = kidsData[i];
+
+            // Проверяем, является ли элемент самым верхним или самым нижним
+            const isTop = (ky === minY && ky < cy);
+            const isBottom = (ky === maxY && ky > cy);
+
+            if (isTop) {
+                // Самый верхний элемент - закругление вниз
+                pathData += `M${vx},${ky + RADIUS}Q${vx},${ky} ${vx + RADIUS},${ky}L${kx},${ky}`;
+            } else if (isBottom) {
+                // Самый нижний элемент - закругление вверх
+                pathData += `M${vx},${ky - RADIUS}Q${vx},${ky} ${vx + RADIUS},${ky}L${kx},${ky}`;
+            } else {
+                // Средние элементы - прямая линия от вертикали
+                pathData += `M${vx},${ky}L${kx},${ky}`;
+            }
+        }
     }
-    svg.appendChild(frag);
+
+    // Создаём path элемент, если есть что рисовать
+    if (pathData) {
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', pathData);
+        path.setAttribute('stroke', STROKE);
+        path.setAttribute('stroke-width', WIDTH);
+        path.setAttribute('stroke-linejoin', 'round');
+        path.setAttribute('stroke-linecap', 'round');
+        path.setAttribute('fill', 'none');
+        svg.appendChild(path);
+    }
 }
 
 /* ---- сворачивания/разворачивания ---- */
-function changeVisibility(btn){
+function changeVisibility(btn) {
     const block = btn.closest('.container-block');
-    if(!block) return;
-    const seq = block.querySelector(':scope > .container-sequence');
-    if(!seq || seq.children.length===0) return;
+    if (!block) return;
 
-    btn.classList.toggle('button-active');
-    btn.querySelector('.button-text').textContent =
-    btn.classList.contains('button-active')?'+':'-';
+    const seq = block.querySelector(':scope > .container-sequence');
+    if (!seq || !seq.children.length) return;
+
+    const isActive = btn.classList.toggle('button-active');
+    const textEl = btn.querySelector('.button-text');
+    if (textEl) {
+        textEl.textContent = isActive ? '+' : '-';
+    }
 
     block.classList.toggle('container-collapsed');
-    scheduleDraw();
+    drawLines();
 }
-function chooseActionClick(event, btn){
-    if (event.button === 1) {
-        changeVisibility(btn)
-    } else if (event.button === 2) {
 
+function hideElement(btn) {
+    const b = btn.closest('.button');
+    if (b && !b.classList.contains('button-active')) {
+        changeVisibility(b);
     }
 }
 
-function openInNewWindow(btn) {
-
+function showElement(btn) {
+    const b = btn.closest('.button');
+    if (b && b.classList.contains('button-active')) {
+        changeVisibility(b);
+    }
 }
 
-function hideElement(btn){const b=btn.closest('.button');b&&!b.classList.contains('button-active')&&changeVisibility(b);}
-function showElement(btn){const b=btn.closest('.button');b&&b.classList.contains('button-active')&&changeVisibility(b);}
-function showAll(){document.querySelectorAll('.button').forEach(showElement); scheduleDraw();}
-function hideAll(){document.querySelectorAll('.button').forEach(hideElement); scheduleDraw();}
+function showAll() {
+    blockDraw = true
+    document.querySelectorAll('.button').forEach(showElement);
+    blockDraw = false
+    drawLines();
+}
 
-/* ---- наблюдатели ---- */
-window.addEventListener('resize',scheduleDraw,{passive:true});
-window.addEventListener('scroll',scheduleDraw,{passive:true});
+function hideAll() {
+    blockDraw = true
+    document.querySelectorAll('.button').forEach(hideElement);
+    blockDraw = false
+    drawLines();
+}
 
-/* ---- первая отрисовка ---- */
-scheduleDraw();
+/* ---- события ---- */
+window.addEventListener(
+    'resize',
+    () => {
+        // При resize только перерисовываем линии, размер SVG не меняем
+        drawLines();
+    },
+    { passive: true }
+);
+
+/* ---- инициализация ---- */
+// Устанавливаем размер SVG только один раз при загрузке
+fitSvgToRoot();
