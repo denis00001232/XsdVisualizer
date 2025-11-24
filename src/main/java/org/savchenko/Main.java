@@ -10,6 +10,7 @@ import org.savchenko.dto.CellDto;
 import org.savchenko.htmlwriter.HtmlWriter;
 import org.savchenko.wordwriter.WordWriter;
 import org.savchenko.xsdparser.XsdReader;
+import org.savchenko.xsdparser.XsdReaderXerces;
 import org.xmlet.xsdparser.core.XsdParser;
 
 import java.io.FileOutputStream;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main2(String[] args) {
+    public static void main3(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
@@ -36,9 +37,16 @@ public class Main {
     }
 
     public static void main(String[] arg) {
-        XsdReader xsdReader = new XsdReader();
-        CellDto cellDto = xsdReader.readSchemaElement("C:\\Users\\d.savchenko\\Desktop\\buildschemas\\xsd\\v_13_0\\idActs\\AIVPV.xsd");
+        XsdReaderXerces xsdReader = new XsdReaderXerces();
+        XsdReader xsdReader2 = new XsdReader();
+        CellDto cellDto = xsdReader.readSchemaElement("C:\\Users\\d.savchenko\\Desktop\\buildschemas\\xsd\\v_18_0\\gsn\\gsnOrderAppointment.xsd");
         HtmlWriter htmlWriter = new HtmlWriter();
         htmlWriter.writeSingleHtml(cellDto);
+    }
+
+    public static void main2(String[] arg) throws JsonProcessingException {
+        XsdReaderXerces xsdReaderXerces = new XsdReaderXerces();
+        ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(xsdReaderXerces.readSchemaElement("C:\\Users\\d.savchenko\\Desktop\\buildschemas\\xsd\\v_13_0\\bus\\busDocumentPackage.xsd")));
     }
 }

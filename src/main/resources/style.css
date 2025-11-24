@@ -168,6 +168,36 @@
     color: red
 }
 
+.cube-checkbox {
+    width: 15px;
+    min-width: 15px;
+    min-height: 15px;
+    height: 15px;
+    appearance: none;
+    -webkit-appearance: none;
+    border: 2px solid #cccccc;
+    background: #f0f0f0;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+}
+
+.cube-checkbox:checked {
+    background: #ff4444;
+    border-color: #cc0000;
+}
+
+.cube-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 @media (update: slow) {
     .container {
         transition: none;

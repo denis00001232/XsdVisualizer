@@ -192,6 +192,8 @@ public class HtmlWriter {
     private void writeContainer(Element rootElement, CellDto cellDto) {
         Element container = rootElement.appendElement("div")
                 .attr("class", "container");
+        container.appendElement("input")
+                .attr("type", "checkbox").attr("class", "cube-checkbox");
         Element containerInfo = container.appendElement("div")
                 .attr("class", "container-info");
         if (!cellDto.getChildren().isEmpty()) {

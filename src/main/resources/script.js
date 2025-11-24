@@ -4,6 +4,7 @@ const WIDTH = 2;
 const RADIUS = 8; // Радиус закругления углов
 const conts = Array.from(document.querySelectorAll('.container'));
 let blockDraw = false
+let svgSizeSet = false; // Флаг, что размер уже установлен
 
 const svg = document.getElementById('svgLayer');
 const rootBlock = document.querySelector('.container-block-root');
@@ -11,6 +12,12 @@ const rootBlock = document.querySelector('.container-block-root');
 /* ---- устанавливаем размер SVG один раз при инициализации ---- */
 function fitSvgToRoot() {
     if (!rootBlock || !svg) return;
+
+    // Если размер уже установлен, только перерисовываем
+    if (svgSizeSet) {
+        drawLines();
+        return;
+    }
 
     // Временно разворачиваем всё для получения максимального размера
     const collapsedBlocks = [];
@@ -21,11 +28,45 @@ function fitSvgToRoot() {
 
     // Небольшая задержка для применения стилей
     requestAnimationFrame(() => {
-        const r = rootBlock.getBoundingClientRect();
+        const body = document.body;
+        const html = document.documentElement;
+
+        // Получаем максимальный размер документа
+        const width = Math.max(
+            body.scrollWidth,
+            body.offsetWidth,
+            html.clientWidth,
+            html.scrollWidth,
+            html.offsetWidth,
+            rootBlock.scrollWidth
+        );
+
+        const height = Math.max(
+            body.scrollHeight,
+            body.offsetHeight,
+            html.clientHeight,
+            html.scrollHeight,
+            html.offsetHeight,
+            rootBlock.scrollHeight
+        );
+
         const gap2 = GAP * 2;
 
-        svg.style.width = `${r.width + gap2}px`;
-        svg.style.height = `${r.height + gap2}px`;
+        // Устанавливаем фиксированный размер
+        svg.style.width = `${width + gap2}px`;
+        svg.style.height = `${height + gap2}px`;
+        svg.style.position = 'absolute';
+        svg.style.top = '0';
+        svg.style.left = '0';
+        svg.style.pointerEvents = 'none';
+
+        // Устанавливаем viewBox для корректного масштабирования
+        svg.setAttribute('width', width + gap2);
+        svg.setAttribute('height', height + gap2);
+        svg.setAttribute('viewBox', `0 0 ${width + gap2} ${height + gap2}`);
+        svg.setAttribute('preserveAspectRatio', 'xMinYMin meet');
+
+        svgSizeSet = true;
 
         // Возвращаем collapsed состояние обратно
         collapsedBlocks.forEach(block => {
@@ -35,6 +76,17 @@ function fitSvgToRoot() {
         // Рисуем линии после восстановления состояния
         drawLines();
     });
+}
+
+function setupContainerInfo() {
+
+}
+
+function copyPath(container) {
+    const path = []
+    while (true) {
+
+    }
 }
 
 /* ---- ГЛАВНАЯ функция отрисовки ---- */
@@ -147,6 +199,7 @@ function drawLines() {
         path.setAttribute('stroke-linejoin', 'round');
         path.setAttribute('stroke-linecap', 'round');
         path.setAttribute('fill', 'none');
+        path.setAttribute('vector-effect', 'non-scaling-stroke'); // Толщина линии не масштабируется
         svg.appendChild(path);
     }
 }
@@ -198,15 +251,30 @@ function hideAll() {
 }
 
 /* ---- события ---- */
+let resizeTimeout;
 window.addEventListener(
     'resize',
     () => {
-        // При resize только перерисовываем линии, размер SVG не меняем
-        drawLines();
+        // Используем debounce для избежания множественных перерисовок
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            drawLines();
+        }, 100);
     },
     { passive: true }
 );
 
+// Отслеживаем изменение zoom
+if (window.visualViewport) {
+    let zoomTimeout;
+    window.visualViewport.addEventListener('resize', () => {
+        clearTimeout(zoomTimeout);
+        zoomTimeout = setTimeout(() => {
+            drawLines();
+        }, 100);
+    });
+}
+
 /* ---- инициализация ---- */
-// Устанавливаем размер SVG только один раз при загрузке
+// Устанавливаем размер SVG при загрузке
 fitSvgToRoot();
