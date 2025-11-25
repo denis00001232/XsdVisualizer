@@ -24,6 +24,8 @@ public class Main {
             try {
                 XsdReader xsdReader = new XsdReader();
                 List<CellDto> cellDtoList = xsdReader.readSchemaElementAsNav(scanner.nextLine());
+                ObjectMapper objectMapper = new ObjectMapper();
+                System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(cellDtoList));
                 HtmlWriter htmlWriter = new HtmlWriter();
                 for (CellDto cellDto : cellDtoList) {
                     htmlWriter.writeHtml(cellDto);
@@ -39,7 +41,7 @@ public class Main {
     public static void main(String[] arg) {
         XsdReaderXerces xsdReader = new XsdReaderXerces();
         XsdReader xsdReader2 = new XsdReader();
-        CellDto cellDto = xsdReader.readSchemaElement("C:\\Users\\d.savchenko\\Desktop\\buildschemas\\xsd\\idActs\\AIGE.xsd");
+        CellDto cellDto = xsdReader.readSchemaElement("C:\\Users\\d.savchenko\\Desktop\\buildschemas\\xsd\\bus\\busDocumentPackage.xsd");
         HtmlWriter htmlWriter = new HtmlWriter();
         htmlWriter.writeSingleHtml(cellDto);
     }

@@ -22,7 +22,7 @@ public class XsdReaderXerces {
     private XSElementDeclaration xsdElementRoot;
     private List<CellDto> cellDtoList = new ArrayList<>();
     private Set<String> alreadyReadenNames = new HashSet<>();
-    private Queue<XsdComplexType> otherComplexTypes = new LinkedList<>();
+    private Queue<XSComplexTypeDefinition> otherComplexTypes = new LinkedList<>();
     private boolean isNav = false;
 
     private XSModel loadSchema(String xsdPath) {
@@ -74,6 +74,29 @@ public class XsdReaderXerces {
         return cellDtoRoot;
     }
 
+    public List<CellDto> readSchemaElementAsNav(String xsdFile) {
+        isNav = true;
+        xsModel = loadSchema(xsdFile);
+        xsdElementRoot = findRootElement(xsModel);
+
+        otherComplexTypes.add(getXSXSComplexTypeDefinitionRoot(xsdElementRoot));
+
+        while (!otherComplexTypes.isEmpty()) {
+            XSComplexTypeDefinition xsComplexTypeDefinition = otherComplexTypes.poll();
+            createNewCellDtoTree(xsComplexTypeDefinition);
+        }
+
+        return cellDtoList;
+    }
+
+    private void createNewCellDtoTree(XSComplexTypeDefinition xsComplexTypeDefinition) {
+        CellDto cellDtoRoot = new CellDto();
+        cellDtoRoot.setType("schema");
+        cellDtoRoot.setName("root");
+        cellDtoList.add(cellDtoRoot);
+        parseXSComplexTypeDefinitionRoot(xsComplexTypeDefinition, cellDtoRoot);
+    }
+
     private void parseXSParticle(XSParticle xsParticle, CellDto cellDtoPrev) {
         if (xsParticle == null) return;
         CellDto cellDto = new CellDto();
@@ -123,20 +146,73 @@ public class XsdReaderXerces {
         } else if (xsTypeDefinition instanceof XSSimpleTypeDefinition xsSimpleTypeDefinition) {
             parseXSSimpleTypeDefinition(xsSimpleTypeDefinition, cellDtoPrev);
         }
+    }
 
+    private XSComplexTypeDefinition getXSXSComplexTypeDefinitionRoot(XSElementDeclaration xsElementDeclaration) {
+        XSTypeDefinition xsTypeDefinition = xsElementDeclaration.getTypeDefinition();
+        if (xsTypeDefinition instanceof XSComplexTypeDefinition xsComplexTypeDefinition) {
+            return xsComplexTypeDefinition;
+        } else {
+            throw new RuntimeException("Не нашел комплексного типа в этом месте");
+        }
     }
 
     private void parseXSComplexTypeDefinition(XSComplexTypeDefinition xsComplexTypeDefinition, CellDto cellDtoPrev) {
         CellDto cellDto = new CellDto();
         cellDtoPrev.getChildren().add(cellDto);
         cellDto.setType("ct");
-        if (xsComplexTypeDefinition.getName() != null) {
-            cellDto.setName(xsComplexTypeDefinition.getName());
-            cellDto.setTargetNameSpace(xsComplexTypeDefinition.getNamespace());
-        }
         if (xsComplexTypeDefinition.getDerivationMethod() == XSConstants.DERIVATION_EXTENSION) {
             XSTypeDefinition xsTypeDefinition = xsComplexTypeDefinition.getBaseType();
             parseBase(xsTypeDefinition, cellDto);
+        }
+        if (xsComplexTypeDefinition.getName() != null) {
+            cellDto.setName(xsComplexTypeDefinition.getName());
+            cellDto.setTargetNameSpace(xsComplexTypeDefinition.getNamespace());
+            if (isNav) {
+                cellDto.setLinkToChild(createFileName(xsComplexTypeDefinition));
+                if (alreadyReadenNames.add(createFileName(xsComplexTypeDefinition))) {
+                    otherComplexTypes.add(xsComplexTypeDefinition);
+                }
+                return;
+            }
+        }
+        parseXSParticle(xsComplexTypeDefinition.getParticle(), cellDto);
+        XSObjectList xsObjectList = xsComplexTypeDefinition.getAttributeUses();
+        for (int i = 0; i < xsObjectList.getLength(); i++) {
+            XSAttributeUse xsAttributeUse = (XSAttributeUse) xsObjectList.get(i);
+            parseXSAttributeUse(xsAttributeUse, cellDto);
+        }
+        XSObjectList annotations = xsComplexTypeDefinition.getAnnotations();
+        if (annotations.getLength() != 0) {
+            cellDto.setDocumentation(getDocumentationText((XSAnnotation) annotations.get(0)));
+        }
+    }
+
+    private String createFileName(XSComplexTypeDefinition xsComplexTypeDefinition) {
+        String name = fixNamespace(xsComplexTypeDefinition.getNamespace()) + xsComplexTypeDefinition.getName() + ".html";
+        return name.replaceAll("#", "sharp");
+    }
+
+    private String fixNamespace(String nameSpace) {
+        nameSpace = nameSpace.replace("http://", "");
+        nameSpace = nameSpace.replace("/", "_");
+        nameSpace = nameSpace.replace(".xsd", "");
+        nameSpace += "_";
+        return nameSpace;
+    }
+
+    private void parseXSComplexTypeDefinitionRoot(XSComplexTypeDefinition xsComplexTypeDefinition, CellDto cellDtoPrev) {
+        CellDto cellDto = new CellDto();
+        cellDtoPrev.getChildren().add(cellDto);
+        cellDto.setType("ct");
+        cellDtoPrev.setFileName(createFileName(xsComplexTypeDefinition));
+        if (xsComplexTypeDefinition.getDerivationMethod() == XSConstants.DERIVATION_EXTENSION) {
+            XSTypeDefinition xsTypeDefinition = xsComplexTypeDefinition.getBaseType();
+            parseBase(xsTypeDefinition, cellDto);
+        }
+        if (xsComplexTypeDefinition.getName() != null) {
+            cellDto.setName(xsComplexTypeDefinition.getName());
+            cellDto.setTargetNameSpace(xsComplexTypeDefinition.getNamespace());
         }
         parseXSParticle(xsComplexTypeDefinition.getParticle(), cellDto);
         XSObjectList xsObjectList = xsComplexTypeDefinition.getAttributeUses();
@@ -161,6 +237,12 @@ public class XsdReaderXerces {
         }
         XSAttributeDeclaration xsAttributeDeclaration = xsAttributeUse.getAttrDeclaration();
         cellDto.setName(xsAttributeDeclaration.getName());
+        XSTypeDefinition xsTypeDefinition = xsAttributeDeclaration.getTypeDefinition();
+        if (xsTypeDefinition instanceof XSComplexTypeDefinition xsComplexTypeDefinition) {
+            parseXSComplexTypeDefinition(xsComplexTypeDefinition, cellDto);
+        } else if (xsTypeDefinition instanceof XSSimpleTypeDefinition xsSimpleTypeDefinition) {
+            parseXSSimpleTypeDefinition(xsSimpleTypeDefinition, cellDto);
+        }
     }
 
     private void parseXSSimpleTypeDefinition(XSSimpleTypeDefinition xsSimpleTypeDefinition, CellDto cellDtoPrev) {
@@ -174,12 +256,6 @@ public class XsdReaderXerces {
         XSObjectList annotations = xsSimpleTypeDefinition.getAnnotations();
         if (annotations.getLength() != 0) {
             cellDto.setDocumentation(getDocumentationText((XSAnnotation) annotations.get(0)));
-        }
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(cellDto));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
         }
     }
 

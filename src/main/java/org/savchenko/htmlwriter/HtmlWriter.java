@@ -281,6 +281,11 @@ public class HtmlWriter {
         if (Objects.equals(cellDto.getType(), "attribute") ||
                 Objects.equals(cellDto.getType(), "attributeGroup")) {
             container.addClass("attribute");
+            if (Objects.equals(cellDto.getMinOccurs(), "0")) {
+                occurs.text("optional");
+            } else {
+                occurs.text("required");
+            }
         }
     }
 
