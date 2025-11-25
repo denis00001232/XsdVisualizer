@@ -10,6 +10,7 @@ import org.savchenko.dto.CellDto;
 import org.savchenko.htmlwriter.HtmlWriter;
 import org.savchenko.wordwriter.WordWriter;
 import org.savchenko.xsdparser.XsdReader;
+import org.savchenko.xsdparser.XsdReaderEclipse;
 import org.savchenko.xsdparser.XsdReaderXerces;
 import org.xmlet.xsdparser.core.XsdParser;
 
@@ -38,7 +39,7 @@ public class Main {
         }
     }
 
-    public static void main(String[] arg) {
+    public static void main2(String[] arg) {
         XsdReaderXerces xsdReader = new XsdReaderXerces();
         XsdReader xsdReader2 = new XsdReader();
         CellDto cellDto = xsdReader.readSchemaElement("C:\\Users\\d.savchenko\\Desktop\\buildschemas\\xsd\\bus\\busDocumentPackage.xsd");
@@ -46,9 +47,9 @@ public class Main {
         htmlWriter.writeSingleHtml(cellDto);
     }
 
-    public static void main2(String[] arg) throws JsonProcessingException {
-        XsdReaderXerces xsdReaderXerces = new XsdReaderXerces();
+    public static void main(String[] arg) throws JsonProcessingException {
+        XsdReaderEclipse xsdReaderXerces = new XsdReaderEclipse();
         ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(xsdReaderXerces.readSchemaElement("C:\\Users\\d.savchenko\\Desktop\\buildschemas\\xsd\\v_13_0\\bus\\busDocumentPackage.xsd")));
+        System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(xsdReaderXerces.readSchemaElement("C:\\Users\\d.savchenko\\Desktop\\buildschemas\\xsd\\pio\\ON_AKTREZRABP_CON.xsd")));
     }
 }
