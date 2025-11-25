@@ -1,5 +1,7 @@
 package org.savchenko.xsdparser;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.xerces.xs.*;
 import org.savchenko.dto.CellDto;
 import org.w3c.dom.DOMConfiguration;
@@ -130,7 +132,6 @@ public class XsdReaderXerces {
         cellDto.setType("ct");
         if (xsComplexTypeDefinition.getName() != null) {
             cellDto.setName(xsComplexTypeDefinition.getName());
-            System.out.println(xsComplexTypeDefinition.getNamespace());
             cellDto.setTargetNameSpace(xsComplexTypeDefinition.getNamespace());
         }
         if (xsComplexTypeDefinition.getDerivationMethod() == XSConstants.DERIVATION_EXTENSION) {
@@ -168,11 +169,17 @@ public class XsdReaderXerces {
         cellDto.setType("st");
         if (xsSimpleTypeDefinition.getName() != null) {
             cellDto.setName(xsSimpleTypeDefinition.getName());
-            cellDto.setTargetNameSpace(xsSimpleTypeDefinition.getName());
+            cellDto.setTargetNameSpace(xsSimpleTypeDefinition.getNamespace());
         }
         XSObjectList annotations = xsSimpleTypeDefinition.getAnnotations();
         if (annotations.getLength() != 0) {
             cellDto.setDocumentation(getDocumentationText((XSAnnotation) annotations.get(0)));
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(cellDto));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 

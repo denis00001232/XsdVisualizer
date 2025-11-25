@@ -39,7 +39,7 @@ public class Main {
     public static void main(String[] arg) {
         XsdReaderXerces xsdReader = new XsdReaderXerces();
         XsdReader xsdReader2 = new XsdReader();
-        CellDto cellDto = xsdReader.readSchemaElement("C:\\Users\\d.savchenko\\Desktop\\buildschemas\\xsd\\v_18_0\\gsn\\gsnOrderAppointment.xsd");
+        CellDto cellDto = xsdReader.readSchemaElement("C:\\Users\\d.savchenko\\Desktop\\buildschemas\\xsd\\idActs\\AIGE.xsd");
         HtmlWriter htmlWriter = new HtmlWriter();
         htmlWriter.writeSingleHtml(cellDto);
     }
