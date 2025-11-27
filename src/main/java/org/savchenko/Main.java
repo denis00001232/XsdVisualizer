@@ -19,14 +19,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main3(String[] args) {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
-                XsdReader xsdReader = new XsdReader();
+                XsdReaderEclipse xsdReader = new XsdReaderEclipse();
                 List<CellDto> cellDtoList = xsdReader.readSchemaElementAsNav(scanner.nextLine());
-                ObjectMapper objectMapper = new ObjectMapper();
-                System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(cellDtoList));
                 HtmlWriter htmlWriter = new HtmlWriter();
                 for (CellDto cellDto : cellDtoList) {
                     htmlWriter.writeHtml(cellDto);
@@ -39,15 +37,14 @@ public class Main {
         }
     }
 
-    public static void main2(String[] arg) {
-        XsdReaderXerces xsdReader = new XsdReaderXerces();
-        XsdReader xsdReader2 = new XsdReader();
-        CellDto cellDto = xsdReader.readSchemaElement("C:\\Users\\d.savchenko\\Desktop\\buildschemas\\xsd\\bus\\busDocumentPackage.xsd");
+    public static void main3(String[] arg) {
+        XsdReaderEclipse xsdReader = new XsdReaderEclipse();
+        CellDto cellDto = xsdReader.readSchemaElement("C:\\Users\\d.savchenko\\Desktop\\buildschemas\\xsd\\gsn\\gsnPetitionPrescriptExecutionDateChange.xsd");
         HtmlWriter htmlWriter = new HtmlWriter();
         htmlWriter.writeSingleHtml(cellDto);
     }
 
-    public static void main(String[] arg) throws JsonProcessingException {
+    public static void main2(String[] arg) throws JsonProcessingException {
         XsdReaderEclipse xsdReaderXerces = new XsdReaderEclipse();
         ObjectMapper objectMapper = new ObjectMapper();
         System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(xsdReaderXerces.readSchemaElement("C:\\Users\\d.savchenko\\Desktop\\buildschemas\\xsd\\pio\\ON_AKTREZRABP_CON.xsd")));
