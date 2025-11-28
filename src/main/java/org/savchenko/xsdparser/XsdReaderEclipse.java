@@ -205,14 +205,22 @@ public class XsdReaderEclipse {
         cellDtoPrev.getChildren().add(cellDto);
         cellDto.setMinOccurs(String.valueOf(xsdParticle.getMinOccurs()));
         cellDto.setMaxOccurs(xsdParticle.getMaxOccurs() == -1 ? "unbounded" : String.valueOf(xsdParticle.getMaxOccurs()));
+
         XSDTerm xsdTerm = xsdParticle.getTerm();
+
         if (xsdTerm instanceof XSDElementDeclaration xsdElementDeclaration) {
             parseXSDElementDeclaration(xsdElementDeclaration, cellDto);
-        } else if (xsdTerm instanceof XSDModelGroupDefinition xsdModelGroupDefinition) {
-            parseXSDModelGroupDefinition(xsdModelGroupDefinition, cellDto); //парсим <xs:group
-        } else if (xsdTerm instanceof XSDModelGroup xsdModelGroup) {
-            parseXSDModelGroup(xsdModelGroup, cellDto); //парсим <xs:choice <xs:all <xs:sequence
-        } else if (xsdTerm instanceof XSDWildcard xsdWildcard) {
+        }
+        else if (xsdTerm instanceof XSDModelGroup xsdModelGroup) {
+            // Проверяем, является ли это ссылкой на группу
+            if (xsdModelGroup.eContainer() instanceof XSDModelGroupDefinition groupDef) {
+                parseXSDModelGroupDefinition(groupDef, cellDto);
+            } else {
+                // Обычная xs:sequence, xs:choice, xs:all
+                parseXSDModelGroup(xsdModelGroup, cellDto);
+            }
+        }
+        else if (xsdTerm instanceof XSDWildcard xsdWildcard) {
             parseXSDWildcard(xsdWildcard, cellDto);
         }
     }
@@ -228,7 +236,7 @@ public class XsdReaderEclipse {
         cellDto.setName(xsdModelGroupDefinition.getName());
         cellDto.setTargetNameSpace(xsdModelGroupDefinition.getTargetNamespace());
         CellDto cellDtoChild = new CellDto();
-        cellDtoChild.getChildren().add(cellDto);
+        cellDto.getChildren().add(cellDtoChild);
         cellDtoChild.setMinOccurs("1");
         cellDtoChild.setMaxOccurs("1");
         XSDModelGroupDefinition xsdModelGroupDefinitionResolved = xsdModelGroupDefinition.getResolvedModelGroupDefinition();
