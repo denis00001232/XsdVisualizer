@@ -25,7 +25,6 @@
 
 .container-sequence {
     width: fit-content;
-    align-self: center;
     height: fit-content;
     gap: 5px;
     display: flex;
@@ -33,7 +32,6 @@
 }
 .container {
     display: flex;
-    align-self: center;
     flex-direction: row;
     justify-content: space-between;
     gap: 5px;

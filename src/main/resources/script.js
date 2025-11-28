@@ -69,10 +69,6 @@ function fitSvgToRoot() {
     });
 }
 
-function setupContainerInfo() {
-
-}
-
 function copyPath(container) {
     const path = [];
     while (true) {
@@ -93,14 +89,14 @@ function createPathElement(pathData) {
 }
 
 function drawLines() {
-    if (blockDraw) {
+    if (blockDraw) { //Блокируем рисовку если есть блок
         return;
     }
-    if (!svg || !conts.length) return;
+    if (!svg || !conts.length) return; //не рисуем если нет svg или нет контейнеров
 
-    svg.innerHTML = '';
+    svg.innerHTML = ''; //очищаем svg от предыдущих рисунков
 
-    const rects = new Map();
+    const rects = new Map(); //собираем прямоугольные представления всех блоков
     for (const el of conts) {
         rects.set(el, el.getBoundingClientRect());
     }
@@ -110,18 +106,18 @@ function drawLines() {
 
     for (const el of conts) {
         const block = el.parentElement;
-        if (!block || block.classList.contains('container-collapsed')) continue;
+        if (!block || block.classList.contains('container-collapsed')) continue; //если элемент в коллапсированном блоке - не рисуем линии для него
 
-        const seq = block.querySelector(':scope > .container-sequence');
+        const seq = block.querySelector(':scope > .container-sequence'); //находим первый sequence
         if (!seq || !seq.children.length) continue;
 
         const r = rects.get(el);
         if (!r) continue;
         if (r.width === 0 && r.height === 0) continue; // родитель скрыт/невидим → не рисуем
 
-        const cy = r.top + scrollY + r.height / 2;
-        const cx = r.right + scrollX;
-        const vx = cx + GAP;
+        const cy = r.top + scrollY + r.height / 2; //центр родительского блока по вертикале
+        const cx = r.right + scrollX; //центр родительского блока по горизонтали
+        const vx = cx + GAP; // место проведения вертикальной линии по горизонтали
 
         const kidsData = [];
         let minY = cy;
@@ -139,7 +135,7 @@ function drawLines() {
             const kx = kr.left + scrollX;
 
             kidsData.push({ kx, ky });
-
+            //Получаем самую высокую и низкую точку для рисования вертикальной линии
             if (ky < minY) minY = ky;
             if (ky > maxY) maxY = ky;
         }
@@ -154,17 +150,8 @@ function drawLines() {
         // Горизонтальная линия от родителя к вертикальному стволу
         pathData += `M${cx},${cy}L${vx},${cy}`;
 
-        // Один ребёнок — просто прямая линия без ствола
-        if (kidsData.length === 1) {
-            const { kx, ky } = kidsData[0];
-            pathData += `M${vx},${ky}L${kx},${ky}`;
-            svg.appendChild(createPathElement(pathData));
-            continue;
-        }
-
-        // Несколько детей — вертикальный ствол с учётом закругления краёв
         if (minY < cy || maxY > cy) {
-            pathData += `M${vx},${minY + RADIUS}L${vx},${maxY - RADIUS}`;
+            pathData += `M${vx},${minY}L${vx},${maxY}`;
         }
 
         // Горизонтальные ветви к детям
@@ -174,13 +161,7 @@ function drawLines() {
             const isTop = (ky === minY && ky < cy);
             const isBottom = (ky === maxY && ky > cy);
 
-            if (isTop) {
-                pathData += `M${vx},${ky + RADIUS}Q${vx},${ky} ${vx + RADIUS},${ky}L${kx},${ky}`;
-            } else if (isBottom) {
-                pathData += `M${vx},${ky - RADIUS}Q${vx},${ky} ${vx + RADIUS},${ky}L${kx},${ky}`;
-            } else {
-                pathData += `M${vx},${ky}L${kx},${ky}`;
-            }
+            pathData += `M${vx},${ky}L${kx},${ky}`;
         }
 
         svg.appendChild(createPathElement(pathData));
