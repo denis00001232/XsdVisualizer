@@ -86,10 +86,10 @@ public class XsdReaderEclipse {
         cellDto.setName(element.getName());
         XSDAnnotation xsdAnnotation = element.getAnnotation();
         if (xsdAnnotation != null) {
-            cellDto.setDocumentation(xsdAnnotation.getUserInformation().get(0).getTextContent());
+            cellDto.setDocumentation(getDocumentation(element.getAnnotation()));
         }
         if (element.getAnnotation() != null && !element.getAnnotation().getUserInformation().get(0).getTextContent().isEmpty()) {
-            cellDto.setDocumentation(element.getAnnotation().getUserInformation().get(0).getTextContent());
+            cellDto.setDocumentation(getDocumentation(element.getAnnotation()));
         }
         XSDTypeDefinition xsdTypeDefinition = element.getTypeDefinition();
         if (xsdTypeDefinition instanceof XSDComplexTypeDefinition xsdComplexTypeDefinition) {
@@ -268,6 +268,15 @@ public class XsdReaderEclipse {
 
     private String getDocumentation(XSDAnnotation xsdAnnotation) {
         if (xsdAnnotation == null) return null;
-        return xsdAnnotation.getUserInformation().get(0).getTextContent();
+
+        // Проверка на пустой список
+        if (xsdAnnotation.getUserInformation().isEmpty()) return null;
+
+        String text = xsdAnnotation.getUserInformation().get(0).getTextContent();
+        if (text == null) return null;
+
+        // Удаляем ВСЕ переносы в начале и конце
+        text = text.trim();
+        return text.isEmpty() ? null : text;
     }
 }

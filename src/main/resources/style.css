@@ -5,7 +5,7 @@
     border-radius: 10px;
     display: flex;
     flex-direction: row;
-    gap: 80px;
+    gap: 40px;
     padding: 10px;
     justify-content: space-between;
 }
@@ -15,7 +15,7 @@
     height: fit-content;
     display: flex;
     flex-direction: row;
-    gap: 80px;
+    gap: 40px;
     justify-content: space-between;
 }
 
@@ -59,6 +59,8 @@
 
 .description {
     overflow-wrap: break-word;
+    white-space: pre-line;
+    display: inline-block;
     font-size: 12px;
     max-width: 350px
 }

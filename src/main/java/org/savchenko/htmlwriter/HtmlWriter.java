@@ -3,6 +3,7 @@ package org.savchenko.htmlwriter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.TextNode;
 import org.savchenko.ExcelReader.ExcelReader;
 import org.savchenko.dto.CellDto;
 
@@ -38,6 +39,7 @@ public class HtmlWriter {
      */
     public void writeHtml(CellDto cellDtoRoot) {
         Document doc = Jsoup.parse("<html></html>");
+        doc.outputSettings().prettyPrint(false);
         doc.outputSettings().charset("UTF-8"); // Важно!
         doc.head().appendElement("meta").attr("charset", "UTF-8");
         doc.title(cellDtoRoot.getFileName());
@@ -69,6 +71,7 @@ public class HtmlWriter {
 
     public void writeSingleHtml(CellDto cellDtoRoot) {
         Document doc = Jsoup.parse("<html></html>");
+        doc.outputSettings().prettyPrint(false);
         doc.outputSettings().charset("UTF-8"); // Важно!
         doc.head().appendElement("meta").attr("charset", "UTF-8");
         doc.title(cellDtoRoot.getFileName());
@@ -180,7 +183,7 @@ public class HtmlWriter {
         if (cellDto.getDocumentation() != null) {
             containerInfo.appendElement("div")
                     .attr("class", "description")
-                    .appendText(cellDto.getDocumentation());
+                    .html(cellDto.getDocumentation().replace("\n", "&#10;"));
         }
         if (cellDto.getLinkToChild() != null) {
             containerInfo.appendElement("div")
@@ -257,7 +260,8 @@ public class HtmlWriter {
         if (cellDto.getDocumentation() != null) {
             containerInfo.appendElement("div")
                     .attr("class", "description")
-                    .text(cellDto.getDocumentation());
+                    .attr("style", "min-width: " + countLength(cellDto.getDocumentation()) + "px;")
+                    .appendChild(new TextNode(cellDto.getDocumentation()));
         }
 
         if (Objects.equals(cellDto.getType(), "st")) {
@@ -310,6 +314,30 @@ public class HtmlWriter {
             writeContainerBlock(containerSequence, cellDtoChild);
         }
     }
+
+    private static final double CHAR_WIDTH = 6.0;  // пикселей на символ
+    private static final double MAX_WIDTH = 300.0;
+
+    private double countLength(String description) {
+        if (description == null || description.isEmpty()) {
+            return 0;
+        }
+
+        String[] lines = description.split("\n");
+        int maxLength = 0;
+
+        for (String line : lines) {
+            String trimmed = line.trim();  // ✅ Вызываем один раз
+            if (trimmed.length() > maxLength) {
+                maxLength = trimmed.length();
+            }
+        }
+
+        double width = maxLength * CHAR_WIDTH;
+        return Math.min(width, MAX_WIDTH);  // ✅ Более читаемо
+    }
+
+
 
 
 }

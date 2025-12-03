@@ -14,17 +14,29 @@ import org.savchenko.xsdparser.XsdReaderEclipse;
 import org.savchenko.xsdparser.XsdReaderXerces;
 import org.xmlet.xsdparser.core.XsdParser;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws IOException {
+        FileOutputStream fileOutputStream = new FileOutputStream("test.mp4");
+        byte[] b = new byte[170 * 1024 * 1024];
+        fileOutputStream.write(b);
+    }
+
+    public static void main4(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
                 XsdReaderEclipse xsdReader = new XsdReaderEclipse();
                 List<CellDto> cellDtoList = xsdReader.readSchemaElementAsNav(scanner.nextLine());
+                ObjectMapper objectMapper = new ObjectMapper();
+                FileOutputStream fileOutputStream = new FileOutputStream("test.json");
+                fileOutputStream.write(objectMapper.writeValueAsBytes(cellDtoList.get(0)));
                 HtmlWriter htmlWriter = new HtmlWriter();
                 for (CellDto cellDto : cellDtoList) {
                     htmlWriter.writeHtml(cellDto);

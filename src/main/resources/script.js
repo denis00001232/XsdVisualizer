@@ -1,4 +1,4 @@
-const GAP = 40;
+const GAP = 20;
 const STROKE = '#333';
 const WIDTH = 2;
 const RADIUS = 8;
