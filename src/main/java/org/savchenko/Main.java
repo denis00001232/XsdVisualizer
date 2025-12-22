@@ -28,9 +28,6 @@ public class Main {
             try {
                 XsdReaderEclipse xsdReader = new XsdReaderEclipse();
                 List<CellDto> cellDtoList = xsdReader.readSchemaElementAsNav(scanner.nextLine());
-                ObjectMapper objectMapper = new ObjectMapper();
-                FileOutputStream fileOutputStream = new FileOutputStream("test.json");
-                fileOutputStream.write(objectMapper.writeValueAsBytes(cellDtoList.get(0)));
                 HtmlWriter htmlWriter = new HtmlWriter();
                 for (CellDto cellDto : cellDtoList) {
                     htmlWriter.writeHtml(cellDto);
