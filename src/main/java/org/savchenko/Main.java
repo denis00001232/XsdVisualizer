@@ -22,12 +22,6 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
-        FileOutputStream fileOutputStream = new FileOutputStream("test.mp4");
-        byte[] b = new byte[170 * 1024 * 1024];
-        fileOutputStream.write(b);
-    }
-
     public static void main4(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
