@@ -16,4 +16,5 @@ public class CellDto {
     private String type;
     private String documentation;
     private List<CellDto> children = new ArrayList<>();
+    private String pathFromRoot = "";
 }

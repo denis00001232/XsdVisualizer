@@ -235,4 +235,28 @@ if (window.visualViewport) {
     });
 }
 
+function copyTextToClipboard(text) {
+    // Проверяем, есть ли текст для копирования
+    if (!text || typeof text !== 'string') {
+        console.error('Неверный текст для копирования');
+        return Promise.resolve(false);
+    }
+
+    // Если доступен современный Clipboard API, используем его
+    if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text)
+            .then(() => {
+            console.log('Скопировано через Clipboard API');
+            return true;
+        })
+            .catch(err => {
+            console.warn('Clipboard API не сработал:', err);
+            return copyViaExecCommand(text);
+        });
+    } else {
+        // Используем старый метод
+        return Promise.resolve(copyViaExecCommand(text));
+    }
+}
+
 fitSvgToRoot();

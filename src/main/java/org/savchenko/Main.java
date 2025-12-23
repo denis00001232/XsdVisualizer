@@ -2,27 +2,15 @@ package org.savchenko;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.savchenko.ExcelReader.ExcelReader;
 import org.savchenko.dto.CellDto;
 import org.savchenko.htmlwriter.HtmlWriter;
-import org.savchenko.wordwriter.WordWriter;
-import org.savchenko.xsdparser.XsdReader;
 import org.savchenko.xsdparser.XsdReaderEclipse;
-import org.savchenko.xsdparser.XsdReaderXerces;
-import org.xmlet.xsdparser.core.XsdParser;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
-    public static void main4(String[] args) {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             try {

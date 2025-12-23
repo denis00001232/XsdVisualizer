@@ -84,6 +84,8 @@ public class XsdReaderEclipse {
 
     private void parseXSDElementDeclaration(XSDElementDeclaration element, CellDto cellDto) {
         cellDto.setName(element.getName());
+        cellDto.setType("element");
+        cellDto.setPathFromRoot(cellDto.getPathFromRoot() + element.getName() + "/");
         XSDAnnotation xsdAnnotation = element.getAnnotation();
         if (xsdAnnotation != null) {
             cellDto.setDocumentation(getDocumentation(element.getAnnotation()));
@@ -104,6 +106,7 @@ public class XsdReaderEclipse {
         CellDto cellRoot = new CellDto();
         cellRoot.setType("schema");
         cellRoot.setName("root");
+        cellRoot.setPathFromRoot(xsdComplexTypeDefinition.getName() + "/");
         cellDtoList.add(cellRoot);
         parseXSDComplexTypeDefinition(xsdComplexTypeDefinition, cellRoot);
     }
@@ -135,6 +138,7 @@ public class XsdReaderEclipse {
         CellDto cellDto = new CellDto();
         cellDtoPrev.getChildren().add(cellDto);
         cellDto.setType("ct");
+        cellDto.setPathFromRoot(cellDtoPrev.getPathFromRoot());
         cellDto.setName(xsdComplexTypeDefinition.getName());
         cellDto.setDocumentation(getDocumentation(xsdComplexTypeDefinition.getAnnotation()));
 
@@ -203,6 +207,7 @@ public class XsdReaderEclipse {
     private void parseParticle(XSDParticle xsdParticle, CellDto cellDtoPrev) {
         CellDto cellDto = new CellDto();
         cellDtoPrev.getChildren().add(cellDto);
+        cellDto.setPathFromRoot(cellDtoPrev.getPathFromRoot());
         cellDto.setMinOccurs(String.valueOf(xsdParticle.getMinOccurs()));
         cellDto.setMaxOccurs(xsdParticle.getMaxOccurs() == -1 ? "unbounded" : String.valueOf(xsdParticle.getMaxOccurs()));
 
@@ -239,6 +244,7 @@ public class XsdReaderEclipse {
         cellDto.getChildren().add(cellDtoChild);
         cellDtoChild.setMinOccurs("1");
         cellDtoChild.setMaxOccurs("1");
+        cellDtoChild.setPathFromRoot(cellDto.getPathFromRoot());
         XSDModelGroupDefinition xsdModelGroupDefinitionResolved = xsdModelGroupDefinition.getResolvedModelGroupDefinition();
         cellDto.setDocumentation(getDocumentation(xsdModelGroupDefinitionResolved.getAnnotation()));
         parseXSDModelGroup(xsdModelGroupDefinitionResolved.getModelGroup(), cellDtoChild);

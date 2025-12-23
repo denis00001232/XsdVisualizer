@@ -198,7 +198,8 @@ public class HtmlWriter {
         container.appendElement("input")
                 .attr("type", "checkbox").attr("class", "cube-checkbox");
         Element containerInfo = container.appendElement("div")
-                .attr("class", "container-info");
+                .attr("class", "container-info")
+                .attr("onclick", "copyTextToClipboard('" + cellDto.getPathFromRoot() + "')");;
         if (!cellDto.getChildren().isEmpty()) {
             Element containerButton = container.appendElement("div")
                     .attr("class", "container-button");
