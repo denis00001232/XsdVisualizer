@@ -179,9 +179,11 @@ public class XsdReaderEclipse {
 
     private void parseXSDAttributeUse(XSDAttributeUse xsdAttributeUse, CellDto cellDtoPrev) {
         CellDto cellDto = new CellDto();
+
         cellDtoPrev.getChildren().add(cellDto);
         cellDto.setType("attribute");
         cellDto.setName(xsdAttributeUse.getAttributeDeclaration().getName());
+        cellDto.setPathFromRoot(cellDtoPrev.getPathFromRoot() + xsdAttributeUse.getAttributeDeclaration().getName() + "/");
         cellDto.setDocumentation(getDocumentation(xsdAttributeUse.getAttributeDeclaration().getAnnotation()));
         cellDto.setMaxOccurs("1");
         cellDto.setMaxOccurs("0");

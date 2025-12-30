@@ -28,9 +28,9 @@ public class Main {
         }
     }
 
-    public static void main3(String[] arg) {
+    public static void main4(String[] arg) {
         XsdReaderEclipse xsdReader = new XsdReaderEclipse();
-        CellDto cellDto = xsdReader.readSchemaElement("C:\\Users\\d.savchenko\\Desktop\\buildschemas\\xsd\\gsn\\gsnPetitionPrescriptExecutionDateChange.xsd");
+        CellDto cellDto = xsdReader.readSchemaElement("C:\\Users\\d.savchenko\\IdeaProjects\\buildschemas\\xsd\\v_19_1\\pio\\ON_AKTREZRABP_SPR.xsd");
         HtmlWriter htmlWriter = new HtmlWriter();
         htmlWriter.writeSingleHtml(cellDto);
     }
