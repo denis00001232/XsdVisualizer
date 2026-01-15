@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main3(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
@@ -28,9 +28,9 @@ public class Main {
         }
     }
 
-    public static void main4(String[] arg) {
+    public static void main(String[] arg) {
         XsdReaderEclipse xsdReader = new XsdReaderEclipse();
-        CellDto cellDto = xsdReader.readSchemaElement("C:\\Users\\d.savchenko\\IdeaProjects\\buildschemas\\xsd\\v_19_1\\pio\\ON_AKTREZRABP_SPR.xsd");
+        CellDto cellDto = xsdReader.readSchemaElement("C:\\Users\\d.savchenko\\Desktop\\buildschemas\\xsd\\pio\\ON_AKTREZRABP_KS2.xsd");
         HtmlWriter htmlWriter = new HtmlWriter();
         htmlWriter.writeSingleHtml(cellDto);
     }
