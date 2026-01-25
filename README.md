@@ -26,8 +26,12 @@ XsdVisualizer is a Java-based application designed to parse XML Schema Definitio
    mvn clean package
    ```
 
+## Download
+
+You can download the latest release of XsdVisualizer from the [Releases](https://github.com/denis00001232/XsdVisualizer/releases) page.
+
 ## Usage
-After building the project, you can run the application using the following commands:
+After downloading the application(or building project), you can run it using the following commands:
 
 ### Generate a Single Schema Visualization
 ```bash
@@ -90,3 +94,11 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Acknowledgments
 - [Jsoup](https://jsoup.org/) for HTML manipulation.
 - [Eclipse XSD](https://projects.eclipse.org/projects/modeling.xsd) for XSD parsing.
+
+## Output Files
+
+All generated files are stored in the following locations:
+- **Schemas**: HTML files representing individual XSD schemas are saved in the `schemas` directory specified in the configuration.
+- **Navigation Table**: The navigation table HTML file is saved in the `navigation` directory specified in the configuration.
+
+By default, these directories are created in the working directory of the application. You can customize these paths in the configuration file or programmatically.
