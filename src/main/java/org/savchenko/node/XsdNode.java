@@ -1,23 +1,25 @@
-package org.savchenko.dto;
+package org.savchenko.node;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 public class XsdNode {
     private String qName;
     private String minOccurs = "1";
     private String maxOccurs = "1";
     private String fileName; //html file name
     private String linkToChild; //for href
-    private String targetNameSpace;
+    private String targetNameSpace; //actual namespace
     private String name;
-    private XsdNodeType type;
+    private XsdNodeType type = XsdNodeType.ANY;
     private String documentation;
-    private boolean isRecursive = false;
+    private boolean recursive = false;
     private List<XsdNode> children = new ArrayList<>();
     @JsonIgnore
     private XsdNode parentNode;
@@ -34,5 +36,9 @@ public class XsdNode {
             return false;
         }
         return parentNode.isChainAlreadyHasQName(qName);
+    }
+
+    public boolean hasChildren() {
+        return !children.isEmpty();
     }
 }

@@ -1,4 +1,4 @@
-package org.savchenko.dto;
+package org.savchenko.node;
 
 public enum XsdNodeType {
     SCHEMA,
