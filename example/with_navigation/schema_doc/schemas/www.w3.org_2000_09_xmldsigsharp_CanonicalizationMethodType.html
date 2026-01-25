@@ -1,0 +1,470 @@
+<html><head><meta charset="UTF-8"><title>www.w3.org_2000_09_xmldsigsharp_CanonicalizationMethodType.html</title><style>.container-block-root {
+    width: fit-content;
+    height: fit-content;
+    border: 2px solid #515151;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    padding: 10px;
+    justify-content: space-between;
+}
+
+.container-block {
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    justify-content: space-between;
+}
+
+.container-collapsed > *:not(:first-child) {
+    display: none;
+}
+
+.container-sequence {
+    width: fit-content;
+    height: fit-content;
+    gap: 5px;
+    display: flex;
+    flex-direction: column;
+}
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 5px;
+    background: #effffe;
+    border-radius: 10px;
+    padding: 4px;
+    border: 2px solid #515151;
+    width: fit-content;
+    max-width: 800px;
+    height: fit-content;
+    transform: translateZ(0);
+    will-change: transform;
+}
+.name {
+    font-size: 15px;
+    font-weight: 700;
+    color:  #2f5a00;
+}
+
+.name-link {
+    font-size: 15px;
+    font-weight: 700;
+    color:  #009af3;
+}
+
+.description {
+    overflow-wrap: break-word;
+    white-space: pre-line;
+    display: inline-block;
+    font-size: 12px;
+    max-width: 350px
+}
+.namespace {
+    font-size: 12px;
+    font-weight: 300;
+    color:  #9c6f00;
+}
+.occurs {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 5px
+}
+.connectors-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: -1;
+    will-change: transform;
+}
+.connection-line {
+    stroke: #333333;
+    stroke-width: 2;
+    fill: none;
+}
+.container-info {
+    display: flex;
+    flex-direction: column;
+}
+.container-button {
+    display: flex;
+    justify-content: center;
+}
+.button {
+    width: 29px;
+    height: 29px;
+    background: gray;
+    border-radius: 10px;
+    align-self: center;
+    text-align: center;
+}
+.button:active {
+    transform: scale(0.95);
+}
+.button-active {
+    background: #008e13;
+}
+.button-text {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 20px;
+    color: white;
+    font-weight: 700;
+    user-select: none;
+}
+.navigation-panel {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    margin: 20px;
+}
+
+.button-panel {
+    padding: 7px;
+    background: gray;
+    border-radius: 10px;
+    align-self: center;
+    text-align: center;
+    color: white;
+}
+.button-panel:active {
+    transform: scale(0.95);
+}
+
+.zero-min-occurs {
+    border-style: dashed;
+}
+
+.unbounded-max-occurs {
+    border-style: groove;
+    border-width: 5px;
+    border-color: #333;
+}
+
+.attribute {
+    background: #f1f1ce
+}
+
+.simple-type {
+    background: #fbe8f6
+}
+.inter-type {
+    background: #ededed
+}
+
+.ct-with-import {
+    background: #ffffff
+}
+
+.group-type {
+    background: #ffd8c1
+}
+
+.name-already-used {
+    color: red
+}
+
+.cube-checkbox {
+    width: 15px;
+    min-width: 15px;
+    min-height: 15px;
+    height: 15px;
+    appearance: none;
+    -webkit-appearance: none;
+    border: 2px solid #cccccc;
+    background: #f0f0f0;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+}
+
+.cube-checkbox:checked {
+    background: #ff4444;
+    border-color: #cc0000;
+}
+
+.cube-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@media (update: slow) {
+    .container {
+        transition: none;
+    }
+}</style></head><body><svg class="connectors-container" id="svgLayer"></svg><div class="navigation-panel"><div class="button-panel" onclick="showAll()">Show all element</div><div class="button-panel" onclick="hideAll()">Hide all elements</div></div><div class="container-block-root"><div class="container"><div class="container-info"><div class="name">root</div></div></div><div class="container-sequence"><div class="container-block"><div class="container inter-type"><input type="checkbox" class="cube-checkbox"><div class="container-info"><div class="name">CanonicalizationMethodType</div><div class="namespace">http://www.w3.org/2000/09/xmldsig#</div><div class="element">ct</div></div><div class="container-button"><div class="button" onclick="changeVisibility(this)"><div class="button-text">-</div></div></div></div><div class="container-sequence"><div class="container-block"><div class="container attribute"><input type="checkbox" class="cube-checkbox"><div class="container-info"><div class="name">Algorithm</div><div class="element">attribute</div><div class="occurs">required</div></div><div class="container-button"><div class="button" onclick="changeVisibility(this)"><div class="button-text">-</div></div></div></div><div class="container-sequence"><div class="container-block"><div class="container simple-type"><input type="checkbox" class="cube-checkbox"><div class="container-info"><div class="name">anyURI</div><div class="namespace">http://www.w3.org/2001/XMLSchema</div><div class="element">st</div></div></div><div class="container-sequence"></div></div></div></div><div class="container-block"><div class="container inter-type"><input type="checkbox" class="cube-checkbox"><div class="container-info"><div class="element">seq</div></div><div class="container-button"><div class="button" onclick="changeVisibility(this)"><div class="button-text">-</div></div></div></div><div class="container-sequence"><div class="container-block"><div class="container inter-type"><input type="checkbox" class="cube-checkbox"><div class="container-info"><div class="element">any</div></div></div><div class="container-sequence"></div></div></div></div></div></div></div></div><script>const GAP = 20;
+const STROKE = '#333';
+const WIDTH = 2;
+const RADIUS = 8;
+const conts = Array.from(document.querySelectorAll('.container'));
+let blockDraw = false;
+let svgSizeSet = false;
+
+const svg = document.getElementById('svgLayer');
+const rootBlock = document.querySelector('.container-block-root');
+
+function fitSvgToRoot() {
+    if (!rootBlock || !svg) return;
+
+    if (svgSizeSet) {
+        drawLines();
+        return;
+    }
+
+    const collapsedBlocks = [];
+    document.querySelectorAll('.container-collapsed').forEach(block => {
+        collapsedBlocks.push(block);
+        block.classList.remove('container-collapsed');
+    });
+
+    requestAnimationFrame(() => {
+        const body = document.body;
+        const html = document.documentElement;
+
+        const width = Math.max(
+            body.scrollWidth,
+            body.offsetWidth,
+            html.clientWidth,
+            html.scrollWidth,
+            html.offsetWidth,
+            rootBlock.scrollWidth
+        );
+
+        const height = Math.max(
+            body.scrollHeight,
+            body.offsetHeight,
+            html.clientHeight,
+            html.scrollHeight,
+            html.offsetHeight,
+            rootBlock.scrollHeight
+        );
+
+        const gap2 = GAP * 2;
+
+        svg.style.width = `${width + gap2}px`;
+        svg.style.height = `${height + gap2}px`;
+        svg.style.position = 'absolute';
+        svg.style.top = '0';
+        svg.style.left = '0';
+        svg.style.pointerEvents = 'none';
+
+        svg.setAttribute('width', width + gap2);
+        svg.setAttribute('height', height + gap2);
+        svg.setAttribute('viewBox', `0 0 ${width + gap2} ${height + gap2}`);
+        svg.setAttribute('preserveAspectRatio', 'xMinYMin meet');
+
+        svgSizeSet = true;
+
+        collapsedBlocks.forEach(block => {
+            block.classList.add('container-collapsed');
+        });
+
+        drawLines();
+    });
+}
+
+function copyPath(container) {
+    const path = [];
+    while (true) {
+
+    }
+}
+
+function createPathElement(pathData) {
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', pathData);
+    path.setAttribute('stroke', STROKE);
+    path.setAttribute('stroke-width', WIDTH);
+    path.setAttribute('stroke-linejoin', 'round');
+    path.setAttribute('stroke-linecap', 'round');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('vector-effect', 'non-scaling-stroke');
+    return path;
+}
+
+function drawLines() {
+    if (blockDraw) { //Блокируем рисовку если есть блок
+        return;
+    }
+    if (!svg || !conts.length) return; //не рисуем если нет svg или нет контейнеров
+
+    svg.innerHTML = ''; //очищаем svg от предыдущих рисунков
+
+    const rects = new Map(); //собираем прямоугольные представления всех блоков
+    for (const el of conts) {
+        rects.set(el, el.getBoundingClientRect());
+    }
+
+    const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+
+    for (const el of conts) {
+        const block = el.parentElement;
+        if (!block || block.classList.contains('container-collapsed')) continue; //если элемент в коллапсированном блоке - не рисуем линии для него
+
+        const seq = block.querySelector(':scope > .container-sequence'); //находим первый sequence
+        if (!seq || !seq.children.length) continue;
+
+        const r = rects.get(el);
+        if (!r) continue;
+        if (r.width === 0 && r.height === 0) continue; // родитель скрыт/невидим → не рисуем
+
+        const cy = r.top + scrollY + r.height / 2; //центр родительского блока по вертикале
+        const cx = r.right + scrollX; //центр родительского блока по горизонтали
+        const vx = cx + GAP; // место проведения вертикальной линии по горизонтали
+
+        const kidsData = [];
+        let minY = cy;
+        let maxY = cy;
+
+        for (const childBlock of seq.children) {
+            const kid = childBlock.querySelector(':scope > .container');
+            if (!kid) continue;
+
+            const kr = rects.get(kid);
+            if (!kr) continue;
+            if (kr.width === 0 && kr.height === 0) continue; // ребёнок скрыт/невидим
+
+            const ky = kr.top + scrollY + kr.height / 2;
+            const kx = kr.left + scrollX;
+
+            kidsData.push({ kx, ky });
+            //Получаем самую высокую и низкую точку для рисования вертикальной линии
+            if (ky < minY) minY = ky;
+            if (ky > maxY) maxY = ky;
+        }
+
+        // Если нет ни одного видимого/валидного ребёнка — не рисуем вообще ничего
+        if (!kidsData.length) {
+            continue;
+        }
+
+        let pathData = '';
+
+        // Горизонтальная линия от родителя к вертикальному стволу
+        pathData += `M${cx},${cy}L${vx},${cy}`;
+
+        if (minY < cy || maxY > cy) {
+            pathData += `M${vx},${minY}L${vx},${maxY}`;
+        }
+
+        // Горизонтальные ветви к детям
+        for (let i = 0; i < kidsData.length; i++) {
+            const { kx, ky } = kidsData[i];
+
+            const isTop = (ky === minY && ky < cy);
+            const isBottom = (ky === maxY && ky > cy);
+
+            pathData += `M${vx},${ky}L${kx},${ky}`;
+        }
+
+        svg.appendChild(createPathElement(pathData));
+    }
+}
+
+function changeVisibility(btn) {
+    const block = btn.closest('.container-block');
+    if (!block) return;
+
+    const seq = block.querySelector(':scope > .container-sequence');
+    if (!seq || !seq.children.length) return;
+
+    const isActive = btn.classList.toggle('button-active');
+    const textEl = btn.querySelector('.button-text');
+    if (textEl) {
+        textEl.textContent = isActive ? '+' : '-';
+    }
+
+    block.classList.toggle('container-collapsed');
+    drawLines();
+}
+
+function hideElement(btn) {
+    const b = btn.closest('.button');
+    if (b && !b.classList.contains('button-active')) {
+        changeVisibility(b);
+    }
+}
+
+function showElement(btn) {
+    const b = btn.closest('.button');
+    if (b && b.classList.contains('button-active')) {
+        changeVisibility(b);
+    }
+}
+
+function showAll() {
+    blockDraw = true;
+    document.querySelectorAll('.button').forEach(showElement);
+    blockDraw = false;
+    drawLines();
+}
+
+function hideAll() {
+    blockDraw = true;
+    document.querySelectorAll('.button').forEach(hideElement);
+    blockDraw = false;
+    drawLines();
+}
+
+let resizeTimeout;
+window.addEventListener(
+    'resize',
+    () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            drawLines();
+        }, 100);
+    },
+    { passive: true }
+);
+
+if (window.visualViewport) {
+    let zoomTimeout;
+    window.visualViewport.addEventListener('resize', () => {
+        clearTimeout(zoomTimeout);
+        zoomTimeout = setTimeout(() => {
+            drawLines();
+        }, 100);
+    });
+}
+
+function copyTextToClipboard(text) {
+    // Проверяем, есть ли текст для копирования
+    if (!text || typeof text !== 'string') {
+        console.error('Неверный текст для копирования');
+        return Promise.resolve(false);
+    }
+
+    // Если доступен современный Clipboard API, используем его
+    if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text)
+            .then(() => {
+            console.log('Скопировано через Clipboard API');
+            return true;
+        })
+            .catch(err => {
+            console.warn('Clipboard API не сработал:', err);
+            return copyViaExecCommand(text);
+        });
+    } else {
+        // Используем старый метод
+        return Promise.resolve(copyViaExecCommand(text));
+    }
+}
+
+fitSvgToRoot();</script></body></html>

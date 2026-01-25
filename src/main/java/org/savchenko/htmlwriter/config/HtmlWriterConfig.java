@@ -1,4 +1,4 @@
-package org.savchenko.htmlwriter;
+package org.savchenko.htmlwriter.config;
 
 import lombok.Getter;
 

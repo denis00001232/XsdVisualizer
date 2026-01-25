@@ -3,19 +3,23 @@ package org.savchenko.xsdparser.parser;
 import org.eclipse.xsd.*;
 import org.savchenko.node.XsdNode;
 import org.savchenko.xsdparser.exception.XsdParsingException;
-import org.savchenko.xsdparser.factory.XsdNodeFactory;
+import org.savchenko.xsdparser.builder.XsdNodeBuilder;
 import org.savchenko.xsdparser.context.ParsingContext;
+import org.savchenko.xsdparser.factory.XsdNodeBuilderFactory;
 import org.savchenko.xsdparser.utils.QualifiedName;
 
 public class XsdElementParser {
-    private final XsdNodeFactory nodeFactory;
+    private final XsdNodeBuilderFactory nodeBuilderFactory;
     
-    public XsdElementParser(XsdNodeFactory nodeFactory) {
-        this.nodeFactory = nodeFactory;
+    public XsdElementParser(XsdNodeBuilderFactory nodeBuilderFactory) {
+        this.nodeBuilderFactory = nodeBuilderFactory;
     }
     
-    public void parseElement(XSDElementDeclaration element, XsdNode parent, ParsingContext ctx) {
-        XsdNode node = nodeFactory.createElementNode(element, parent);
+    public void parseElement(XSDElementDeclaration element, XsdNode parent, ParsingContext ctx, XSDParticle xsdParticle) {
+        XsdNode node = nodeBuilderFactory.createBuilder()
+                .parentNode(parent)
+                .elementNode(element, xsdParticle)
+                .build();
         parent.getChildren().add(node);
         
         XSDTypeDefinition type = element.getTypeDefinition();
@@ -28,7 +32,10 @@ public class XsdElementParser {
     }
     
     public void parseComplexType(XSDComplexTypeDefinition type, XsdNode parent, ParsingContext ctx, boolean isRoot) {
-        XsdNode node = nodeFactory.createComplexTypeNode(type, parent);
+        XsdNode node = nodeBuilderFactory.createBuilder()
+                .parentNode(parent)
+                .complexTypeNode(type)
+                .build();
         parent.getChildren().add(node);
         
         // Handle named complex types
@@ -66,7 +73,10 @@ public class XsdElementParser {
     }
     
     private void parseSimpleType(XSDSimpleTypeDefinition type, XsdNode parent, ParsingContext ctx) {
-        XsdNode node = nodeFactory.createSimpleTypeNode(type, parent);
+        XsdNode node = nodeBuilderFactory.createBuilder()
+                .parentNode(parent)
+                .simpleTypeNode(type)
+                .build();
         parent.getChildren().add(node);
     }
     
@@ -81,7 +91,10 @@ public class XsdElementParser {
     }
     
     private void parseAttributeUse(XSDAttributeUse attrUse, XsdNode parent, ParsingContext ctx) {
-        XsdNode node = nodeFactory.createAttributeNode(attrUse, parent);
+        XsdNode node = nodeBuilderFactory.createBuilder()
+                .parentNode(parent)
+                .attributeNode(attrUse)
+                .build();
         parent.getChildren().add(node);
         
         // Parse attribute type
@@ -90,7 +103,10 @@ public class XsdElementParser {
     }
     
     private void parseAttributeGroup(XSDAttributeGroupDefinition groupDef, XsdNode parent, ParsingContext ctx) {
-        XsdNode node = nodeFactory.createAttributeGroupNode(groupDef, parent);
+        XsdNode node = nodeBuilderFactory.createBuilder()
+                .parentNode(parent)
+                .attributeGroupNode(groupDef)
+                .build();
         parent.getChildren().add(node);
         
         XSDAttributeGroupDefinition resolved = groupDef.getResolvedAttributeGroupDefinition();
@@ -101,7 +117,10 @@ public class XsdElementParser {
         XSDTypeDefinition baseType = type.getBaseTypeDefinition();
         
         if (baseType != null && !"anyType".equals(baseType.getName())) {
-            XsdNode baseNode = nodeFactory.createBaseNode(parent);
+            XsdNode baseNode = nodeBuilderFactory.createBuilder()
+                    .parentNode(parent)
+                    .baseNode()
+                    .build();
             parent.getChildren().add(baseNode);
             
             if (baseType instanceof XSDSimpleTypeDefinition simpleType) {
@@ -123,49 +142,54 @@ public class XsdElementParser {
     }
     
     public void parseParticle(XSDParticle particle, XsdNode parent, ParsingContext ctx) {
-        XsdNode node = nodeFactory.createParticleNode(particle, parent);
-        parent.getChildren().add(node);
         
         XSDTerm term = particle.getTerm();
         
         if (term instanceof XSDElementDeclaration element) {
-            parseElement(element, node, ctx);
+            parseElement(element, parent, ctx, particle);
         }
         else if (term instanceof XSDModelGroup group) {
             if (group.eContainer() instanceof XSDModelGroupDefinition groupDef) {
-                parseModelGroupDefinition(groupDef, node, ctx);
+                parseModelGroupDefinition(groupDef, parent, ctx, particle);
             } else {
-                parseModelGroup(group, node, ctx);
+                parseModelGroup(group, parent, ctx, particle);
             }
         }
         else if (term instanceof XSDWildcard) {
-            parseWildcard(node, ctx);
+            parseWildcard(parent, ctx);
         }
     }
     
-    private void parseModelGroup(XSDModelGroup group, XsdNode parent, ParsingContext ctx) {
-        XsdNode node = nodeFactory.createModelGroupNode(group, parent);
+    private void parseModelGroup(XSDModelGroup group, XsdNode parent, ParsingContext ctx, XSDParticle xsdParticle) {
+        XsdNode node = nodeBuilderFactory.createBuilder()
+                .parentNode(parent)
+                .modelGroupNode(group, xsdParticle)
+                .build();
         parent.getChildren().add(node);
+
         
         for (XSDParticle particle : group.getParticles()) {
             parseParticle(particle, node, ctx);
         }
     }
     
-    private void parseModelGroupDefinition(XSDModelGroupDefinition groupDef, XsdNode parent, ParsingContext ctx) {
-        XsdNode node = nodeFactory.createGroupDefinitionNode(groupDef, parent);
+    private void parseModelGroupDefinition(XSDModelGroupDefinition groupDef, XsdNode parent, ParsingContext ctx,
+                                           XSDParticle xsdParticle) {
+        XsdNode node = nodeBuilderFactory.createBuilder()
+                .parentNode(parent)
+                .groupDefinitionNode(groupDef, xsdParticle)
+                .build();
         parent.getChildren().add(node);
         
-        // Create child node for the model group content
-        XsdNode childNode = new XsdNode(node);
-        node.getChildren().add(childNode);
-        
         XSDModelGroupDefinition resolved = groupDef.getResolvedModelGroupDefinition();
-        parseModelGroup(resolved.getModelGroup(), childNode, ctx);
+        parseModelGroup(resolved.getModelGroup(), node, ctx, xsdParticle);
     }
     
     private void parseWildcard(XsdNode parent, ParsingContext ctx) {
-        XsdNode node = nodeFactory.createWildcardNode(parent);
+        XsdNode node = nodeBuilderFactory.createBuilder()
+                .parentNode(parent)
+                .wildcardNode()
+                .build();
         parent.getChildren().add(node);
     }
 }

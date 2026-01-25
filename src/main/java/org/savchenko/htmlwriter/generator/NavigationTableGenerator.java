@@ -1,8 +1,9 @@
-package org.savchenko.htmlwriter;
+package org.savchenko.htmlwriter.generator;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.savchenko.htmlwriter.config.HtmlWriterConfig;
 import org.savchenko.node.XsdNode;
 
 import java.util.List;

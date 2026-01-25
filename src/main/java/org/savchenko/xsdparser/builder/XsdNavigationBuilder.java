@@ -5,18 +5,18 @@ import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDTypeDefinition;
 import org.savchenko.node.XsdNode;
 import org.savchenko.xsdparser.exception.XsdParsingException;
-import org.savchenko.xsdparser.factory.XsdNodeFactory;
 import org.savchenko.xsdparser.context.ParsingContext;
+import org.savchenko.xsdparser.factory.XsdNodeBuilderFactory;
 import org.savchenko.xsdparser.parser.XsdElementParser;
 
 import java.util.List;
 
 public class XsdNavigationBuilder {
-    private final XsdNodeFactory nodeFactory;
+    private final XsdNodeBuilderFactory xsdNodeBuilderFactory;
     private final XsdElementParser elementParser;
     
-    public XsdNavigationBuilder(XsdNodeFactory nodeFactory, XsdElementParser elementParser) {
-        this.nodeFactory = nodeFactory;
+    public XsdNavigationBuilder(XsdNodeBuilderFactory xsdNodeBuilderFactory, XsdElementParser elementParser) {
+        this.xsdNodeBuilderFactory = xsdNodeBuilderFactory;
         this.elementParser = elementParser;
     }
     
@@ -28,7 +28,7 @@ public class XsdNavigationBuilder {
         
         while (context.hasPendingTypes()) {
             XSDComplexTypeDefinition type = context.pollPendingType();
-            XsdNode root = nodeFactory.createRootNode(type);
+            XsdNode root = xsdNodeBuilderFactory.createBuilder().rootNode(type).build();
             context.addNode(root);
             
             elementParser.parseComplexType(type, root, context, true);

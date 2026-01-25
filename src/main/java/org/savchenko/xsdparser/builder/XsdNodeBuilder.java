@@ -1,4 +1,4 @@
-package org.savchenko.xsdparser.factory;
+package org.savchenko.xsdparser.builder;
 
 import org.eclipse.xsd.*;
 import org.savchenko.node.XsdNode;
@@ -7,49 +7,49 @@ import org.savchenko.xsdparser.utils.DocumentationExtractor;
 import org.savchenko.xsdparser.utils.QualifiedName;
 
 
-public class XsdNodeFactory {
+public class XsdNodeBuilder {
     private final DocumentationExtractor docExtractor;
+
+    private final XsdNode node = new XsdNode(null);
     
-    public XsdNodeFactory(DocumentationExtractor docExtractor) {
+    public XsdNodeBuilder(DocumentationExtractor docExtractor) {
         this.docExtractor = docExtractor;
     }
     
-    public XsdNode createRootNode(XSDComplexTypeDefinition type) {
-        XsdNode node = new XsdNode(null);
+    public XsdNodeBuilder rootNode(XSDComplexTypeDefinition type) {
         node.setType(XsdNodeType.SCHEMA);
         node.setName("root");
         node.setFileName(QualifiedName.from(type).toSafeFileName());
-        return node;
+        return this;
     }
     
-    public XsdNode createElementNode(XSDElementDeclaration element, XsdNode parent) {
-        XsdNode node = new XsdNode(parent);
+    public XsdNodeBuilder elementNode(XSDElementDeclaration element, XSDParticle particle) {
+        applyParticle(particle);
+
         node.setType(XsdNodeType.ELEMENT);
         node.setName(element.getName());
         setDocumentation(node, element.getAnnotation());
-        return node;
+
+        return this;
     }
     
-    public XsdNode createComplexTypeNode(XSDComplexTypeDefinition type, XsdNode parent) {
-        XsdNode node = new XsdNode(parent);
+    public XsdNodeBuilder complexTypeNode(XSDComplexTypeDefinition type) {
         node.setType(XsdNodeType.COMPLEX_TYPE);
         node.setName(type.getName());
         node.setTargetNameSpace(type.getTargetNamespace());
         setDocumentation(node, type.getAnnotation());
-        return node;
+        return this;
     }
     
-    public XsdNode createSimpleTypeNode(XSDSimpleTypeDefinition type, XsdNode parent) {
-        XsdNode node = new XsdNode(parent);
+    public XsdNodeBuilder simpleTypeNode(XSDSimpleTypeDefinition type) {
         node.setType(XsdNodeType.SIMPLE_TYPE);
         node.setName(type.getName());
         node.setTargetNameSpace(type.getTargetNamespace());
         setDocumentation(node, type.getAnnotation());
-        return node;
+        return this;
     }
     
-    public XsdNode createAttributeNode(XSDAttributeUse attributeUse, XsdNode parent) {
-        XsdNode node = new XsdNode(parent);
+    public XsdNodeBuilder attributeNode(XSDAttributeUse attributeUse) {
         XSDAttributeDeclaration attrDecl = attributeUse.getAttributeDeclaration();
         
         node.setType(XsdNodeType.ATTRIBUTE);
@@ -61,29 +61,22 @@ public class XsdNodeFactory {
             node.setMinOccurs("1");
         }
         
-        return node;
+        return this;
     }
     
-    public XsdNode createAttributeGroupNode(XSDAttributeGroupDefinition groupDef, XsdNode parent) {
+    public XsdNodeBuilder attributeGroupNode(XSDAttributeGroupDefinition groupDef) {
         XSDAttributeGroupDefinition resolved = groupDef.getResolvedAttributeGroupDefinition();
-        
-        XsdNode node = new XsdNode(parent);
+
         node.setType(XsdNodeType.ATTRIBUTE_GROUP);
         node.setName(resolved.getName());
         setDocumentation(node, resolved.getAnnotation());
         
-        return node;
+        return this;
     }
+
     
-    public XsdNode createParticleNode(XSDParticle particle, XsdNode parent) {
-        XsdNode node = new XsdNode(parent);
-        node.setMinOccurs(String.valueOf(particle.getMinOccurs()));
-        node.setMaxOccurs(particle.getMaxOccurs() == -1 ? "unbounded" : String.valueOf(particle.getMaxOccurs()));
-        return node;
-    }
-    
-    public XsdNode createModelGroupNode(XSDModelGroup group, XsdNode parent) {
-        XsdNode node = new XsdNode(parent);
+    public XsdNodeBuilder modelGroupNode(XSDModelGroup group, XSDParticle particle) {
+        applyParticle(particle);
         
         switch (group.getCompositor().getValue()) {
             case XSDCompositor.SEQUENCE -> node.setType(XsdNodeType.SEQUENCE);
@@ -91,34 +84,46 @@ public class XsdNodeFactory {
             case XSDCompositor.ALL -> node.setType(XsdNodeType.ALL);
         }
         
-        return node;
+        return this;
     }
     
-    public XsdNode createGroupDefinitionNode(XSDModelGroupDefinition groupDef, XsdNode parent) {
+    public XsdNodeBuilder groupDefinitionNode(XSDModelGroupDefinition groupDef, XSDParticle particle) {
+        applyParticle(particle);
         XSDModelGroupDefinition resolved = groupDef.getResolvedModelGroupDefinition();
-        
-        XsdNode node = new XsdNode(parent);
+
         node.setType(XsdNodeType.GROUP);
         node.setName(groupDef.getName());
         node.setTargetNameSpace(groupDef.getTargetNamespace());
         setDocumentation(node, resolved.getAnnotation());
         
-        return node;
+        return this;
     }
     
-    public XsdNode createWildcardNode(XsdNode parent) {
-        XsdNode node = new XsdNode(parent);
+    public XsdNodeBuilder wildcardNode() {
         node.setType(XsdNodeType.ANY);
-        return node;
+        return this;
     }
     
-    public XsdNode createBaseNode(XsdNode parent) {
-        XsdNode node = new XsdNode(parent);
+    public XsdNodeBuilder baseNode() {
         node.setType(XsdNodeType.BASE);
-        return node;
+        return this;
     }
     
     private void setDocumentation(XsdNode node, XSDAnnotation annotation) {
         docExtractor.extract(annotation).ifPresent(node::setDocumentation);
+    }
+
+    private void applyParticle(XSDParticle particle) {
+        node.setMinOccurs(String.valueOf(particle.getMinOccurs()));
+        node.setMaxOccurs(particle.getMaxOccurs() == -1 ? "unbounded" : String.valueOf(particle.getMaxOccurs()));
+    }
+
+    public XsdNodeBuilder parentNode(XsdNode parent) {
+        node.setParentNode(parent);
+        return this;
+    }
+
+    public XsdNode build() {
+        return node;
     }
 }

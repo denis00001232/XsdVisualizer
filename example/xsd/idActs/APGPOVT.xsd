@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema version="1.1"
+  targetNamespace="http://v_17_0/idActs/APGPOVT.xsd"
+  elementFormDefault="qualified"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:cf="http://v_17_0/idActs/APGPOVT.xsd"
+  xmlns:ct="http://v_17_0/types/CommonTypes.xsd"
+  xmlns:bt="http://v_17_0/types/BaseTypes.xsd"
+  xmlns:bd="http://v_17_0/types/BaseDocument.xsd"
+>
+  <xs:import schemaLocation="../types/CommonTypes.xsd" namespace="http://v_17_0/types/CommonTypes.xsd" />
+  <xs:import schemaLocation="../types/BaseTypes.xsd" namespace="http://v_17_0/types/BaseTypes.xsd" />
+  <xs:import schemaLocation="../types/BaseDocument.xsd" namespace="http://v_17_0/types/BaseDocument.xsd" />
+
+  <xs:complexType name="apgpovt">
+    <xs:annotation>
+      <xs:documentation>
+        Акт проверки габаритов приближения оборудования в тоннелях
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="bd:baseDocument">
+        <xs:sequence>
+          <xs:element name="actInfo">
+            <xs:annotation>
+              <xs:documentation>Подписываемая часть</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="documentDetails" type="ct:actRequisites">
+                  <xs:annotation>
+                    <xs:documentation>Реквизиты акта</xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+                <xs:element name="permanentObjectInfo" type="ct:permanentObjectInfo">
+                  <xs:annotation>
+                    <xs:documentation>Объект капитального строительства</xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+                <xs:choice>
+                  <xs:element name="participantDeveloper" type="ct:individualEntrepreneurOrLegalEntityOrIndividualAndId">
+                    <xs:annotation>
+                      <xs:documentation>Застройщик</xs:documentation>
+                    </xs:annotation>
+                  </xs:element>
+                  <xs:element name="participantTechnicalCustomer" type="ct:organizationWithOptionalSroAndId">
+                    <xs:annotation>
+                      <xs:documentation>Технический заказчик</xs:documentation>
+                    </xs:annotation>
+                  </xs:element>
+                  <xs:element name="participantBuildingOperator" type="ct:individualEntrepreneurOrLegalEntityOrIndividualAndId">
+                    <xs:annotation>
+                      <xs:documentation>Лицо, ответственное за эксплуатацию здания, сооружения</xs:documentation>
+                    </xs:annotation>
+                  </xs:element>
+                  <xs:element name="participantRegionalBuildingOperator" type="ct:organizationWithOptionalSroAndId">
+                    <xs:annotation>
+                      <xs:documentation>Региональный оператор</xs:documentation>
+                    </xs:annotation>
+                  </xs:element>
+                </xs:choice>
+                <xs:element name="participantBuildingContractor" type="ct:organizationWithOptionalSroAndId">
+                  <xs:annotation>
+                    <xs:documentation>Лицо, осуществляющее строительство</xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+                <xs:choice>
+                  <xs:element name="representativeDeveloperControl" type="ct:representativeWithIDNRAndOrganization">
+                    <xs:annotation>
+                      <xs:documentation>Представитель застройщика по вопросам строительного контроля</xs:documentation>
+                    </xs:annotation>
+                  </xs:element>
+                  <xs:element name="representativeTechnicalCustomerControl" type="ct:representativeWithIDNRAndOrganization">
+                    <xs:annotation>
+                      <xs:documentation>Представитель технического заказчика по вопросам строительного контроля</xs:documentation>
+                    </xs:annotation>
+                  </xs:element>
+                  <xs:element name="representativeBuildingOperatorControl" type="ct:representativeWithIDNRAndOrganization">
+                    <xs:annotation>
+                      <xs:documentation>Представитель лица, ответственного за эксплуатацию здания, сооружения по вопросам строительного контроля</xs:documentation>
+                    </xs:annotation>
+                  </xs:element>
+                  <xs:element name="representativeRegionalBuildingOperatorControl" type="ct:representativeWithIDNRAndOrganization">
+                    <xs:annotation>
+                      <xs:documentation>Представитель регионального оператора по вопросам строительного контроля</xs:documentation>
+                    </xs:annotation>
+                  </xs:element>
+                </xs:choice>
+                <xs:element name="representativeBuildingContractor" type="ct:actsRepresentativeWithIdAndOrder">
+                  <xs:annotation>
+                    <xs:documentation>Представитель лица, осуществляющего строительство</xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+                <xs:element name="representativeBuildingContractorControl" type="ct:actsRepresentativeWithIdAndOrderAndIDNR">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Сведения о представителе лица, осуществляющего строительство по вопросам строительного контроля
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+                <xs:choice>
+                  <xs:element name="variantRequiredChiefEngineerList">
+                    <xs:annotation>
+                      <xs:documentation>Вариант с обязательным элементом "Главные инженеры строительной и монтажной организаций"</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="chiefEngineerList" type="ct:chiefEngineerList">
+                          <xs:annotation>
+                            <xs:documentation>Главные инженеры строительной и монтажной организаций</xs:documentation>
+                          </xs:annotation>
+                        </xs:element>
+                        <xs:element name="chiefSurveyorList" type="ct:chiefSurveyorList" minOccurs="0">
+                          <xs:annotation>
+                            <xs:documentation>Главные маркшейдеры строительной и монтажной организаций</xs:documentation>
+                          </xs:annotation>
+                        </xs:element>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                  <xs:element name="variantRequiredChiefSurveyorList">
+                    <xs:annotation>
+                      <xs:documentation>Вариант с обязательным элементом "Главные маркшейдеры строительной и монтажной организаций"</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="chiefSurveyorList" type="ct:chiefSurveyorList">
+                          <xs:annotation>
+                            <xs:documentation>Главные маркшейдеры строительной и монтажной организаций</xs:documentation>
+                          </xs:annotation>
+                        </xs:element>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:choice>
+                <xs:element name="representativeOtherList" type="ct:representativeOtherList" minOccurs="0">
+                  <xs:annotation>
+                    <xs:documentation>Иные представители лиц, участвующих в освидетельствовании</xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+                <xs:element name="testingWorksInfo" type="ct:testingWorksInfo">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Сведения о работе по испытанию смонтированного оборудования/системы
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+                <xs:element name="worksInfoList" type="ct:worksInfoList" minOccurs="0">
+                  <xs:annotation>
+                    <xs:documentation>Работы / скрытые работы, выполненные в отношении конструкции / участка сетей</xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+                <xs:element name="complianceSizeList">
+                  <xs:annotation>
+                    <xs:documentation>Соответствия габаритов приближения оборудования в тоннелях (список)</xs:documentation>
+                  </xs:annotation>
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="complianceSize" maxOccurs="unbounded">
+                        <xs:annotation>
+                          <xs:documentation>Соответствия габаритов приближения оборудования в тоннелях (элемент списка)</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:sequence>
+                            <xs:element name="workTimeInterval" type="ct:timeInterval">
+                              <xs:annotation>
+                                <xs:documentation>Время начала и окончания работ</xs:documentation>
+                              </xs:annotation>
+                            </xs:element>
+                            <xs:element name="objectName" type="bt:notEmptyString">
+                              <xs:annotation>
+                                <xs:documentation>Наименование проверенного сооружения</xs:documentation>
+                              </xs:annotation>
+                            </xs:element>
+                            <xs:element name="picketNumbers">
+                              <xs:annotation>
+                                <xs:documentation>Номера пикетов</xs:documentation>
+                              </xs:annotation>
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element name="firstPicket" type="bt:notEmptyString">
+                                    <xs:annotation>
+                                      <xs:documentation>Номер первого пикета</xs:documentation>
+                                    </xs:annotation>
+                                  </xs:element>
+                                  <xs:element name="lastPicket" type="bt:notEmptyString">
+                                    <xs:annotation>
+                                      <xs:documentation>Номер последнего пикета</xs:documentation>
+                                    </xs:annotation>
+                                  </xs:element>
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                          </xs:sequence>
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="identifiedNonComplianceSizeFixed" type="xs:boolean">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Выявленные несоблюдения габаритов приближения оборудования устранены на основании выданных комиссией предписаний
+                      (Логический тип данных: true(1) - устранены, false(0) - не устранены)
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+                <xs:element name="objectReadyForPermanentOperation" type="xs:boolean">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Сооружение готово к постоянной эксплуатации
+                      (Логический тип данных: true(1) - готово, false(0) - не готово)
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="id" type="bt:GUIDandUnderscore" use="required">
+                <xs:annotation>
+                  <xs:documentation>Id подписываемой части</xs:documentation>
+                </xs:annotation>
+              </xs:attribute>
+            </xs:complexType>
+          </xs:element>
+          <xs:choice minOccurs="0">
+            <xs:element name="representativeDeveloperControlSignature" type="ct:signature">
+              <xs:annotation>
+                <xs:documentation>Подпись представителя застройщика по вопросам строительного контроля</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="representativeTechnicalCustomerControlSignature" type="ct:signature">
+              <xs:annotation>
+                <xs:documentation>Подпись представителя технического заказчика по вопросам строительного контроля</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="representativeBuildingOperatorControlSignature" type="ct:signature">
+              <xs:annotation>
+                <xs:documentation>Подпись представителя лица, ответственного за эксплуатацию здания, сооружения по вопросам строительного контроля</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="representativeRegionalBuildingOperatorControlSignature" type="ct:signature">
+              <xs:annotation>
+                <xs:documentation>Подпись представителя регионального оператора по вопросам строительного контроля</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:choice>
+          <xs:element name="representativeBuildingContractorSignature" type="ct:signature" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                Подпись представителя лица, осуществляющего строительство
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="representativeBuildingContractorControlSignature" type="ct:signature" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                Подпись представителя лица, осуществляющего строительство, по вопросам строительного контроля (специалист по организации строительства)
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="chiefEngineerSignatureList" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Подписи главных инженеров строительной и монтажной организаций</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="chiefEngineerSignature" type="ct:signature" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>Подпись</xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="chiefSurveyorSignatureList" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Подписи главных маркшейдеров строительной и монтажной организаций</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="chiefSurveyorSignature" type="ct:signature" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>Подпись</xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="representativeOtherSignatureList" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Подписи представителей иных лиц</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="representativeOtherSignature" type="ct:signature" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>Подпись представителя иного лица</xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="actsServiceAttributes" type="ct:baseDocServiceAttributes">
+            <xs:annotation>
+              <xs:documentation>Служебные атрибуты документа ИД</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="extraParametersList" type="ct:extraParametersList" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Список дополнительных параметров</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="docSchemaVersion" type="bt:docSchemaVersion" use="required" fixed="1.1">
+          <xs:annotation>
+            <xs:documentation>Версия схемы, по которой составлен документ</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:element name="apgpovt" type="cf:apgpovt" />
+</xs:schema>

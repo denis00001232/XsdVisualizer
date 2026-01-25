@@ -1,8 +1,16 @@
 package org.savchenko.htmlwriter;
 
 import org.jsoup.nodes.Document;
+import org.savchenko.htmlwriter.config.HtmlWriterConfig;
+import org.savchenko.htmlwriter.config.ResourceLoader;
+import org.savchenko.htmlwriter.filewriter.HtmlFileWriter;
+import org.savchenko.htmlwriter.generator.HtmlDocumentGenerator;
+import org.savchenko.htmlwriter.generator.NavigationTableGenerator;
 import org.savchenko.node.XsdNode;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 //api to simple use
@@ -32,16 +40,23 @@ public class HtmlWriter {
         this.browserLauncher = new BrowserLauncher();
     }
     
-    public void writeSchema(XsdNode rootNode) {
+    public File writeSchema(XsdNode rootNode) {
         Document doc = documentGenerator.generateSchemaDocument(rootNode);
         String filePath = config.getSchemasPath() + "/" + rootNode.getFileName();
-        fileWriter.writeToFile(doc, filePath);
+        return fileWriter.writeToFile(doc, filePath);
+    }
+
+    public void writeSchemaAndOpen(XsdNode rootNode) {
+        browserLauncher.openInBrowser(writeSchema(rootNode));
     }
     
     public void writeNavigationTable(List<XsdNode> nodes) {
         Document doc = tableGenerator.generateNavigationTable(nodes);
         String filePath = config.getNavigationPath();
         fileWriter.writeToFile(doc, filePath);
+        for (XsdNode node : nodes) {
+            writeSchema(node);
+        }
     }
     
     public void writeNavigationTableAndOpen(List<XsdNode> nodes) {

@@ -1,0 +1,290 @@
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>Navigation page</title>
+  <style>.styled-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.styled-table th,
+.styled-table td {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.styled-table th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+.styled-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.styled-table tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.3s;
+}</style>
+ </head>
+ <body>
+  <table class="styled-table">
+   <tr>
+    <th>Structure name</th>
+    <th>Description</th>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_idActs_APGPOVT_apgpovt.html" target="_blank">apgpovt</a></td>
+    <td>Акт проверки габаритов приближения оборудования в тоннелях</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_BaseDocument_baseDocument.html" target="_blank">baseDocument</a></td>
+    <td>Информация об UUID и редакции документа, UUID объекта капитального строительства, версии схемы</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_actRequisites.html" target="_blank">actRequisites</a></td>
+    <td>Реквизиты документа для актов</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_permanentObjectInfo.html" target="_blank">permanentObjectInfo</a></td>
+    <td>Информация об объекте капитального строительства</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_individualEntrepreneurOrLegalEntityOrIndividualAndId.html" target="_blank">individualEntrepreneurOrLegalEntityOrIndividualAndId</a></td>
+    <td>ИП / ЮЛ / ФЛ с указанием ID</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_organizationWithOptionalSroAndId.html" target="_blank">organizationWithOptionalSroAndId</a></td>
+    <td>Организация (ЮЛ/ИП) с необязательным СРО и ID участника</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_representativeWithIDNRAndOrganization.html" target="_blank">representativeWithIDNRAndOrganization</a></td>
+    <td>Информация о представителе и об организации Информация о представителе - ФИО - Должность - ID представителя - Распорядительный документ, подтверждающий полномочия - Идентификационный номер в национальном реестре специалистов в области строительства (необяз.) Информация об организации (необяз.) - ID участника - Индивидуальный предприниматель/Юридическое лицо - СРО (необяз.)</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_actsRepresentativeWithIdAndOrder.html" target="_blank">actsRepresentativeWithIdAndOrder</a></td>
+    <td>Информация о представителе - ФИО - Должность - ID представителя - Распорядительный документ, подтверждающий полномочия с необязательным файлом документа</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_actsRepresentativeWithIdAndOrderAndIDNR.html" target="_blank">actsRepresentativeWithIdAndOrderAndIDNR</a></td>
+    <td>Информация о представителе - ФИО - Должность - ID представителя - Распорядительный документ, подтверждающий полномочия - Идентификационный номер в национальном реестре специалистов в области строительства (необяз.)</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_chiefEngineerList.html" target="_blank">chiefEngineerList</a></td>
+    <td>Главные инженеры строительной и монтажной организаций</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_chiefSurveyorList.html" target="_blank">chiefSurveyorList</a></td>
+    <td>Главные маркшейдеры строительной и монтажной организаций</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_representativeOtherList.html" target="_blank">representativeOtherList</a></td>
+    <td>Представители иных лиц</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_testingWorksInfo.html" target="_blank">testingWorksInfo</a></td>
+    <td>Сведения о выполненной работе - ID работы - Наименование работы - ID записей в журналах работ и контроля</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_worksInfoList.html" target="_blank">worksInfoList</a></td>
+    <td>Выполненные работы</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_timeInterval.html" target="_blank">timeInterval</a></td>
+    <td>Временной интервал - Время начала - Время окончания</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_signature.html" target="_blank">signature</a></td>
+    <td>Подпись (УКЭП)</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_baseDocServiceAttributes.html" target="_blank">baseDocServiceAttributes</a></td>
+    <td>Служебные атрибуты документа / комплекта документов (базовые)</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_extraParametersList.html" target="_blank">extraParametersList</a></td>
+    <td>Список дополнительных параметров</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_postalOrConstructionSiteAddress.html" target="_blank">postalOrConstructionSiteAddress</a></td>
+    <td>Информация об адресе объекта (Почтовый или строительный)</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_organizationWithOptionalSro.html" target="_blank">organizationWithOptionalSro</a></td>
+    <td>Организация (ЮЛ/ИП) с необязательным СРО</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_individual.html" target="_blank">individual</a></td>
+    <td>Информация о физическом лице - ФИО - Адрес - Идентификационный документ - Контактная информация (необяз.)</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_representative.html" target="_blank">representative</a></td>
+    <td>Информация о представителе - ФИО - Должность</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_administrativeDocumentOptionalFileDoc.html" target="_blank">administrativeDocumentOptionalFileDoc</a></td>
+    <td>Распорядительный документ - Наименование - Номер - Дата - Дата начала действия полномочий (необяз.) - Срок действия (необяз.) - Подписанный и/или не подписанный файл документа (необяз.)</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_representativeWithOrganization.html" target="_blank">representativeWithOrganization</a></td>
+    <td>Информация о представителе и об организации Информация о представителе - ФИО - Должность - ID представителя - Распорядительный документ, подтверждающий полномочия Информация об организации - Полная/сокращенная информация об организации</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_journalRecordLinkGroup.html" target="_blank">journalRecordLinkGroup</a></td>
+    <td>Записи в журналах работ и контроля</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_docNameAndNumberAndDate.html" target="_blank">docNameAndNumberAndDate</a></td>
+    <td>Информация о документе, включающая: - Наименование - Номер/код/шифр - Дата выдачи - ID документа</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_SignatureType.html" target="_blank">SignatureType</a></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_postalAddress.html" target="_blank">postalAddress</a></td>
+    <td>Информация о почтовом адресе</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_constructionSiteAddress.html" target="_blank">constructionSiteAddress</a></td>
+    <td>Информация о строительном адресе</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_legalEntity.html" target="_blank">legalEntity</a></td>
+    <td>Информация о юридическом лице - Наименование юридического лица - ОГРН - ИНН - Адрес - Контактная информация (необяз.)</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_individualEntrepreneur.html" target="_blank">individualEntrepreneur</a></td>
+    <td>Информация об индивидуальном предпринимателе - ФИО - Адрес - ОГРНИП - ИНН - Контактная информация (необяз.)</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_sro.html" target="_blank">sro</a></td>
+    <td>Информация о саморегулируемой организации (СРО) - Наименование - ИНН - ОГРН</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_passportDetails.html" target="_blank">passportDetails</a></td>
+    <td>Идентификационный документ (паспорт РФ / документ иностранного гражданина)</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_attachedDocuments.html" target="_blank">attachedDocuments</a></td>
+    <td>Документ с внутренней и/или откреплённой подписью</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_fullOrShortOrganizationInfo.html" target="_blank">fullOrShortOrganizationInfo</a></td>
+    <td>Полная/сокращенная информация об организации</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_SignedInfoType.html" target="_blank">SignedInfoType</a></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_SignatureValueType.html" target="_blank">SignatureValueType</a></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_KeyInfoType.html" target="_blank">KeyInfoType</a></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_ObjectType.html" target="_blank">ObjectType</a></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_fileWithInternalSignature.html" target="_blank">fileWithInternalSignature</a></td>
+    <td>Документ с внутренней подписью</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_fileWithDisattachSignature.html" target="_blank">fileWithDisattachSignature</a></td>
+    <td>Документ с откреплённой подписью / Документ без подписей</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_shortIndividualEntrepreneurOrLegalEntityAndId.html" target="_blank">shortIndividualEntrepreneurOrLegalEntityAndId</a></td>
+    <td>Наименование юрлица / ФИО ИП с указанием ID</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_CanonicalizationMethodType.html" target="_blank">CanonicalizationMethodType</a></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_SignatureMethodType.html" target="_blank">SignatureMethodType</a></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_ReferenceType.html" target="_blank">ReferenceType</a></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_KeyValueType.html" target="_blank">KeyValueType</a></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_RetrievalMethodType.html" target="_blank">RetrievalMethodType</a></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_X509DataType.html" target="_blank">X509DataType</a></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_PGPDataType.html" target="_blank">PGPDataType</a></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_SPKIDataType.html" target="_blank">SPKIDataType</a></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_attachedFile.html" target="_blank">attachedFile</a></td>
+    <td>Информация о файле, загруженном в хранилище</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_personIdAndMchd.html" target="_blank">personIdAndMchd</a></td>
+    <td>Подписант + МЧД</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_personIdAndMchdAndSignatureFile.html" target="_blank">personIdAndMchdAndSignatureFile</a></td>
+    <td>Подписант (ID) + подпись + МЧД</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_individualEntrepreneurFullNameOrLegalEntityName.html" target="_blank">individualEntrepreneurFullNameOrLegalEntityName</a></td>
+    <td>Наименование юрлица/ФИО ИП</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_TransformsType.html" target="_blank">TransformsType</a></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_DigestMethodType.html" target="_blank">DigestMethodType</a></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_DSAKeyValueType.html" target="_blank">DSAKeyValueType</a></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_RSAKeyValueType.html" target="_blank">RSAKeyValueType</a></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_X509IssuerSerialType.html" target="_blank">X509IssuerSerialType</a></td>
+    <td></td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_personMchd.html" target="_blank">personMchd</a></td>
+    <td>МЧД подписанта</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/v_17_0_types_CommonTypes_fullName.html" target="_blank">fullName</a></td>
+    <td>ФИО</td>
+   </tr>
+   <tr>
+    <td><a href="schemas/www.w3.org_2000_09_xmldsigsharp_TransformType.html" target="_blank">TransformType</a></td>
+    <td></td>
+   </tr>
+  </table>
+ </body>
+</html>

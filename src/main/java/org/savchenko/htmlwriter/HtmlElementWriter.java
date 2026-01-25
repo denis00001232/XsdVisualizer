@@ -102,10 +102,10 @@ public class HtmlElementWriter {
                 writeNodeName(node, containerInfo);
                 container.addClass("inter-type");
             }
+            writeTargetNamespace(node, containerInfo);
         } else {
             container.addClass("inter-type");
         }
-        writeTargetNamespace(node, containerInfo);
         writeNodeType("ct", containerInfo);
         writeRecursive(node, containerInfo);
         writeDocumentation(node, containerInfo);
@@ -128,9 +128,11 @@ public class HtmlElementWriter {
     
     private void writeGroup(XsdNode node, Element containerInfo, Element container) {
         writeNodeName(node, containerInfo);
+        writeTargetNamespace(node, containerInfo);
         writeNodeType("group", containerInfo);
         writeOccurs(node, containerInfo, container);
         writeDocumentation(node, containerInfo);
+        container.addClass("group-type");
     }
     
     private void writeModelGroup(XsdNode node, Element containerInfo, Element container, String type) {

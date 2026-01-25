@@ -6,23 +6,23 @@ import org.eclipse.xsd.XSDTypeDefinition;
 import org.savchenko.node.XsdNode;
 import org.savchenko.xsdparser.context.ParsingContext;
 import org.savchenko.xsdparser.exception.XsdParsingException;
-import org.savchenko.xsdparser.factory.XsdNodeFactory;
+import org.savchenko.xsdparser.factory.XsdNodeBuilderFactory;
 import org.savchenko.xsdparser.parser.XsdElementParser;
 
 
 public class XsdTreeBuilder {
-    private final XsdNodeFactory nodeFactory;
+    private final XsdNodeBuilderFactory xsdNodeBuilderFactory;
     private final XsdElementParser elementParser;
     
-    public XsdTreeBuilder(XsdNodeFactory nodeFactory, XsdElementParser elementParser) {
-        this.nodeFactory = nodeFactory;
+    public XsdTreeBuilder(XsdNodeBuilderFactory xsdNodeBuilderFactory, XsdElementParser elementParser) {
+        this.xsdNodeBuilderFactory = xsdNodeBuilderFactory;
         this.elementParser = elementParser;
     }
     
     public XsdNode buildTree(XSDElementDeclaration rootElement) {
         XSDComplexTypeDefinition complexType = extractComplexType(rootElement);
         
-        XsdNode root = nodeFactory.createRootNode(complexType);
+        XsdNode root = xsdNodeBuilderFactory.createBuilder().rootNode(complexType).build();
         ParsingContext context = ParsingContext.forTreeMode();
         
         elementParser.parseComplexType(complexType, root, context, true);
