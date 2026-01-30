@@ -35,14 +35,14 @@ After downloading the application(or building project), you can run it using the
 
 ### Generate a Single Schema Visualization
 ```bash
-java -jar target/XsdVisualizer.jar path/to/xsd -s
+java -jar XsdVisualizer.jar path/to/xsd -s
 ```
 - `path/to/xsd`: Path to the XSD file or directory.
 - `-s`: Mode for generating a single schema visualization.
 
 ### Generate a Navigation Table
 ```bash
-java -jar target/XsdVisualizer.jar path/to/xsd -t
+java -jar XsdVisualizer.jar path/to/xsd -t
 ```
 - `path/to/xsd`: Path to the XSD file or directory.
 - `-t`: Mode for generating a navigation table.
